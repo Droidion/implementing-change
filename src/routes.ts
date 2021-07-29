@@ -8,7 +8,7 @@ import {RouteRecordRaw} from "vue-router";
 export const routes: RouteRecordRaw[] = [
     {
         path: '/login', component: AuthLayout, children: [{
-            path: '/',
+            path: '',
             component: LoginPage
         }]
     },
@@ -18,7 +18,7 @@ export const routes: RouteRecordRaw[] = [
                 path: 'planner',
                 component: PlannerPage
             },
-            {path: '/', redirect: '/login'}
+            {path: '/', redirect: '/auth/login'}
         ]
     },
 ]

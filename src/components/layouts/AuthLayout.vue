@@ -1,15 +1,44 @@
 <template>
-  <h1>Auth Layout</h1>
-  <router-view></router-view>
+  <div class="wrapper">
+    <router-view></router-view>
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import {defineComponent} from 'vue'
+
 export default defineComponent({
   name: 'AuthLayout',
 })
 </script>
 
 <style scoped lang="scss">
+@use '../../styles/colors';
 
+
+.wrapper,
+.wrapper::after {
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+}
+
+.wrapper::after {
+  content: "";
+  background-image: url("../../assets/images/background.webp");
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: 0.18;
+  z-index: -1;
+}
+
+.wrapper {
+  align-items: center;
+  color: colors.$white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 </style>
