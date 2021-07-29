@@ -12,7 +12,7 @@ export default defineComponent({
 })
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @use '../../styles/colors';
 
 
@@ -40,5 +40,15 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: 500;
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  margin-top: 1rem;
 }
 </style>

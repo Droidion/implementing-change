@@ -1,6 +1,6 @@
 <template>
-  <h1>Управление изменениями</h1>
-  <h2>Деловая игра от Группы ТИМ</h2>
+  <div class="title">Управление изменениями</div>
+  <div class="subtitle">Деловая игра от Группы ТИМ</div>
   <input type="password" />
 </template>
 
