@@ -10,6 +10,12 @@ export default defineComponent({
 })
 </script>
 
-<style>
+<style lang="scss">
+@use 'styles/reset';
+@use 'styles/fonts';
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
 
 </style>
