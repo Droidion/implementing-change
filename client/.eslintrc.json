@@ -1,0 +1,9 @@
+{
+    "root": true,
+
+    "extends": ["@ntnyq/prettier-typescript-vue"],
+
+    "rules": {
+        // Override rules
+    }
+}
