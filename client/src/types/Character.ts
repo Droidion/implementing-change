@@ -8,4 +8,5 @@ export interface Character {
   age: number;
   description: string[];
   support: number;
+  titleSort: number;
 }

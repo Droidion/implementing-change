@@ -5,11 +5,10 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+
 export default defineComponent({
   name: 'MainLayout',
 })
 </script>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

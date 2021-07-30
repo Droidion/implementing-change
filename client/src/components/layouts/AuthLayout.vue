@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'AuthLayout',
@@ -14,7 +14,6 @@ export default defineComponent({
 
 <style lang="scss">
 @use '../../styles/colors';
-
 
 .wrapper,
 .wrapper::after {
@@ -26,10 +25,10 @@ export default defineComponent({
 }
 
 .wrapper::after {
-  content: "";
-  background-image: url("../../assets/images/background.webp");
-  background-size: cover;
+  background-image: url('../../assets/images/background.webp');
   background-repeat: no-repeat;
+  background-size: cover;
+  content: '';
   opacity: 0.18;
   z-index: -1;
 }
