@@ -1,3 +1,6 @@
+import { CharId } from './Character'
+import { EventId } from './Event'
+
 export interface RejectChance {
   // Шанс что будет отказ (от 0 до 1)
   chance: number
@@ -5,4 +8,4 @@ export interface RejectChance {
   reply: string
 }
 
-export type RejectChancesCollection = Record<string, Record<string, RejectChance>>[]
+export type RejectChancesCollection = Partial<Record<EventId, Partial<Record<CharId, RejectChance>>>>[]
