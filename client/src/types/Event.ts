@@ -1,7 +1,7 @@
 import { EventType } from './EventType'
 
 export interface Event {
-  id: string
+  id: EventId
   name: string
   length: number
   cooldown: number
@@ -9,45 +9,53 @@ export interface Event {
   description: string
 }
 
-export enum EventId {
-  PrAction = 'prAction',
-  RoadShow = 'roadShow',
-  InformationAnalysis = 'informationAnalysis',
-  IncludeReserve = 'includeReserve',
-  ExternalConference = 'externalConference',
-  Memo = 'memo',
-  ChangeIncentiveSystem = 'changeIncentiveSystem',
-  ResearchInformalGroups = 'researchInformalGroups',
-  ExecutiveDecision = 'executiveDecision',
-  ProjectConsulting = 'projectConsulting',
-  CorporateHolidays = 'corporateHolidays',
-  DevelopingKpi = 'developingKpi',
-  NiceLetter = 'niceLetter',
-  ProjectReport = 'projectReport',
-  TopManagementSession = 'topManagementSession',
-  PayingBonuses = 'payingBonuses',
-  EmployeesInterview = 'employeesInterview',
-  PostingNews = 'postingNews',
-  CorporateArticle = 'corporateArticle',
-  DevelopingNewOrgStructure = 'developingNewOrgStructure',
-  SendingNewsletter = 'sendingNewsletter',
-  OrderingBusinessProcesses = 'orderingBusinessProcesses',
-  CreatingWebsite = 'creatingWebsite',
-  ExternalMediaArticle = 'externalMediaArticle',
-  MeetingColleagues = 'meetingColleagues',
-  TopManagerInterview = 'topManagerInterview',
-  EmployeePrivateMeeting = 'employeePrivateMeeting',
-  MeetingTopManager = 'meetingTopManager',
-  PrivateEmail = 'privateEmail',
-  AskingColleagueAdvise = 'askingColleagueAdvise',
-  HelpingColleagues = 'helpingColleagues',
-  PilotProject = 'pilotProject',
-  UsingColleagueAsExport = 'usingColleagueAsExport',
-  BrainStorm = 'brainStorm',
-  AskingGuru = 'askingGuru',
-  ExternalProvidersSeminar = 'externalProvidersSeminar',
-  LearningEvent = 'learningEvent',
-  PrivateMeeting = 'privateMeeting',
-  TeamBuildingTraining = 'teamBuildingTraining',
-  PrivateParty = 'privateParty',
+export interface EventInfluence {
+  from: EventId
+  to: EventId
+  effect: number
 }
+
+export type EventId =
+  // Общие
+  | 'prAction'
+  | 'roadShow'
+  | 'informationAnalysis'
+  | 'includeReserve'
+  | 'externalConference'
+  | 'memo'
+  | 'changeIncentiveSystem'
+  | 'researchInformalGroups'
+  | 'executiveDecision'
+  | 'projectConsulting'
+  | 'corporateHolidays'
+  | 'developingKpi'
+  | 'niceLetter'
+  | 'projectReport'
+  | 'topManagementSession'
+  | 'payingBonuses'
+  | 'employeesInterview'
+  | 'postingNews'
+  | 'corporateArticle'
+  | 'developingNewOrgStructure'
+  | 'sendingNewsletter'
+  | 'orderingBusinessProcesses'
+  | 'creatingWebsite'
+  | 'externalMediaArticle'
+  // Индивидуальные
+  | 'meetingColleagues'
+  | 'topManagerInterview'
+  | 'employeePrivateMeeting'
+  | 'meetingTopManager'
+  | 'privateEmail'
+  | 'askingColleagueAdvise'
+  | 'helpingColleagues'
+  | 'pilotProject'
+  | 'usingColleagueAsExport'
+  // Групповые
+  | 'brainStorm'
+  | 'askingGuru'
+  | 'externalProvidersSeminar'
+  | 'learningEvent'
+  | 'privateMeeting'
+  | 'teamBuildingTraining'
+  | 'privateParty'

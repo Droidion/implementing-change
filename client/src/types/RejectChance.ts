@@ -8,4 +8,4 @@ export interface RejectChance {
   reply: string
 }
 
-export type RejectChancesCollection = Partial<Record<EventId, Partial<Record<CharId, RejectChance>>>>[]
+export type RejectChancesCollection = Partial<Record<EventId, Record<CharId, RejectChance>>>[]

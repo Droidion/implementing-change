@@ -1,9 +1,11 @@
 import type { Character } from '../types/Character'
-import { CharId } from '../types/Character'
 
+/**
+ * Список персонажей игры с их начальными параметрами.ц
+ */
 export const characters: Character[] = [
   {
-    id: CharId.President,
+    id: 'president',
     name: 'Валерий Молодцов',
     title: 'Президент',
     age: 52,
@@ -17,7 +19,7 @@ export const characters: Character[] = [
   },
 
   {
-    id: CharId.Mentor,
+    id: 'mentor',
     name: 'Пол Стюарт',
     title: 'Внешний консультант (ментор)',
     age: 55,
@@ -32,7 +34,7 @@ export const characters: Character[] = [
   },
 
   {
-    id: CharId.FinanceVp,
+    id: 'financeVp',
     name: 'Жан Деруа',
     title: 'Вице-президент по финансам',
     age: 38,
@@ -45,7 +47,7 @@ export const characters: Character[] = [
   },
 
   {
-    id: CharId.ProductionVp,
+    id: 'productionVp',
     name: 'Николай Каменев',
     title: 'Вице-президент по производству',
     age: 47,
@@ -60,7 +62,7 @@ export const characters: Character[] = [
   },
 
   {
-    id: CharId.DevelopmentVp,
+    id: 'developmentVp',
     name: 'Кирилл Карташов',
     title: 'Вице-президент по организационному развитию',
     age: 36,
@@ -74,7 +76,7 @@ export const characters: Character[] = [
   },
 
   {
-    id: CharId.SecurityChief,
+    id: 'securityChief',
     name: 'Сергей Михайловский',
     title: 'Начальник службы безопасности',
     age: 55,
@@ -91,7 +93,7 @@ export const characters: Character[] = [
   },
 
   {
-    id: CharId.AuditChief,
+    id: 'auditChief',
     name: 'Елена Крылова',
     title: 'Начальник службы внутреннего аудита',
     age: 30,
@@ -105,7 +107,7 @@ export const characters: Character[] = [
   },
 
   {
-    id: CharId.FinanceDirector,
+    id: 'financeDirector',
     name: 'Илья Григорьев',
     title: 'Финансовый директор',
     age: 34,
@@ -121,7 +123,7 @@ export const characters: Character[] = [
   },
 
   {
-    id: CharId.Accountant,
+    id: 'accountant',
     name: 'Валентина Денисова',
     title: 'Главный бухгалтер',
     age: 43,
@@ -135,7 +137,7 @@ export const characters: Character[] = [
   },
 
   {
-    id: CharId.ProductionChief,
+    id: 'productionChief',
     name: 'Дэвид Нэфф',
     title: 'Начальник производственного управления',
     age: 40,
@@ -149,7 +151,7 @@ export const characters: Character[] = [
   },
 
   {
-    id: CharId.SalesDirector,
+    id: 'salesDirector',
     name: 'Ирина Александрова',
     title: 'Директор торгового дома',
     age: 33,
@@ -164,7 +166,7 @@ export const characters: Character[] = [
   },
 
   {
-    id: CharId.FactoryDirector,
+    id: 'factoryDirector',
     name: 'Александр Шевцов',
     title: 'Директор завода ОмегаПром',
     age: 47,
@@ -176,7 +178,7 @@ export const characters: Character[] = [
   },
 
   {
-    id: CharId.LogisticsDirector,
+    id: 'logisticsDirector',
     name: 'Игорь Стрельников',
     title: 'Директор транспортного предприятия',
     age: 43,
@@ -188,7 +190,7 @@ export const characters: Character[] = [
   },
 
   {
-    id: CharId.SalesDeputy,
+    id: 'salesDeputy',
     name: 'Виктор Теплухин',
     title: 'Заместитель по сбыту',
     age: 26,
@@ -202,7 +204,7 @@ export const characters: Character[] = [
   },
 
   {
-    id: CharId.SupplyDeputy,
+    id: 'supplyDeputy',
     name: 'Алексей Пастухов',
     title: 'Заместитель по закупкам',
     age: 47,
@@ -212,7 +214,7 @@ export const characters: Character[] = [
   },
 
   {
-    id: CharId.HrDirector,
+    id: 'hrDirector',
     name: 'Михаил Уваров',
     title: 'HR директор',
     age: 36,
@@ -226,7 +228,7 @@ export const characters: Character[] = [
   },
 
   {
-    id: CharId.PrDirector,
+    id: 'prDirector',
     name: 'Глеб Ростоцкий',
     title: 'PR директор',
     age: 38,
@@ -241,7 +243,7 @@ export const characters: Character[] = [
   },
 
   {
-    id: CharId.NewspaperEditor,
+    id: 'newspaperEditor',
     name: 'Светлана Степанова',
     title: 'Главный редактор корпоративного издания',
     age: 36,
@@ -253,7 +255,7 @@ export const characters: Character[] = [
   },
 
   {
-    id: CharId.MarketingChief,
+    id: 'marketingChief',
     name: 'Татьяна Новикова',
     title: 'Начальник управления маркетинга',
     age: 30,
@@ -266,7 +268,7 @@ export const characters: Character[] = [
   },
 
   {
-    id: CharId.ItChief,
+    id: 'itChief',
     name: 'Виктор Зайцев',
     title: 'Начальник IT-отдела',
     age: 28,
@@ -279,7 +281,7 @@ export const characters: Character[] = [
   },
 
   {
-    id: CharId.ChiefOfStaff,
+    id: 'chiefOfStaff',
     name: 'Ольга Усова',
     title: 'Начальник управления делами',
     age: 40,
@@ -289,7 +291,7 @@ export const characters: Character[] = [
   },
 
   {
-    id: CharId.LegalChief,
+    id: 'legalChief',
     name: 'Сергей Щеглов',
     title: 'Начальник юридического отдела',
     age: 32,
@@ -302,7 +304,7 @@ export const characters: Character[] = [
   },
 
   {
-    id: CharId.RndDeputy,
+    id: 'rndDeputy',
     name: 'Денис Курбатов',
     title: 'Заместитель начальника ОСР',
     age: 29,
@@ -314,7 +316,7 @@ export const characters: Character[] = [
   },
 
   {
-    id: CharId.ItSupportChief,
+    id: 'itSupportChief',
     name: 'Ксения Ростоцкая',
     title: 'Начальник группы информационной поддержки',
     age: 28,
@@ -326,7 +328,7 @@ export const characters: Character[] = [
   },
 
   {
-    id: CharId.ImplementationChief,
+    id: 'implementationChief',
     name: 'Андрей Петров',
     title: 'Начальник группы внедрения',
     age: 31,
@@ -339,7 +341,7 @@ export const characters: Character[] = [
   },
 
   {
-    id: CharId.AnalysisChief,
+    id: 'analysisChief',
     name: 'Юлия Ким',
     title: 'Начальник группы анализа и разработки изменений',
     age: 27,

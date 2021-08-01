@@ -2,7 +2,7 @@
  * Описание и характеристики персонажа
  */
 export interface Character {
-  id: string
+  id: CharId
   name: string
   title: string
   age: number
@@ -11,31 +11,30 @@ export interface Character {
   titleSort: number
 }
 
-export enum CharId {
-  President = 'president',
-  Mentor = 'mentor',
-  FinanceVp = 'financeVp',
-  ProductionVp = 'productionVp',
-  DevelopmentVp = 'developmentVp',
-  SecurityChief = 'securityChief',
-  AuditChief = 'auditChief',
-  FinanceDirector = 'financeDirector',
-  Accountant = 'accountant',
-  ProductionChief = 'productionChief',
-  SalesDirector = 'salesDirector',
-  FactoryDirector = 'factoryDirector',
-  LogisticsDirector = 'logisticsDirector',
-  SalesDeputy = 'salesDeputy',
-  SupplyDeputy = 'supplyDeputy',
-  HrDirector = 'hrDirector',
-  PrDirector = 'prDirector',
-  NewspaperEditor = 'newspaperEditor',
-  MarketingChief = 'marketingChief',
-  ItChief = 'itChief',
-  ChiefOfStaff = 'chiefOfStaff',
-  LegalChief = 'legalChief',
-  RndDeputy = 'rndDeputy',
-  ItSupportChief = 'itSupportChief',
-  ImplementationChief = 'implementationChief',
-  AnalysisChief = 'analysisChief',
-}
+export type CharId =
+  | 'president'
+  | 'mentor'
+  | 'financeVp'
+  | 'productionVp'
+  | 'developmentVp'
+  | 'securityChief'
+  | 'auditChief'
+  | 'financeDirector'
+  | 'accountant'
+  | 'productionChief'
+  | 'salesDirector'
+  | 'factoryDirector'
+  | 'logisticsDirector'
+  | 'salesDeputy'
+  | 'supplyDeputy'
+  | 'hrDirector'
+  | 'prDirector'
+  | 'newspaperEditor'
+  | 'marketingChief'
+  | 'itChief'
+  | 'chiefOfStaff'
+  | 'legalChief'
+  | 'rndDeputy'
+  | 'itSupportChief'
+  | 'implementationChief'
+  | 'analysisChief'
