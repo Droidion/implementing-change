@@ -1,12 +1,11 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import { createRouter, createWebHashHistory } from 'vue-router'
-import { routes } from './routes'
+import { router } from './router'
 import { createPinia } from 'pinia'
+import { scenario } from './scenario/scenario'
 
-const router = createRouter({
-    history: createWebHashHistory(),
-    routes,
-})
-
-createApp(App).use(createPinia()).use(router).mount('#app')
+const app = createApp(App)
+app.config.globalProperties.$scenario = scenario
+app.use(createPinia())
+app.use(router)
+app.mount('#app')
