@@ -62,3 +62,18 @@ func GetAdminByLogin(login string) (*Admin, error) {
 	}
 	return admins[0], nil
 }
+
+func SetAllGamesAsInactive() error {
+	_, err := PgConn.Exec(Ctx, "")
+	return err
+}
+
+func CreateNewGame() (int, error) {
+	var ids []int
+	err := pgxscan.Select(Ctx, PgConn, &ids, `insert into games (creation_date, is_active) values (now(), true) returning id`)
+	if err != nil {
+		return 0, eris.Wrap(err, "could not insert new game")
+	}
+
+	return ids[0], nil
+}
