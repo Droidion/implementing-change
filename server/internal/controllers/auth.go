@@ -12,7 +12,7 @@ type AuthPlayerPayload struct {
 
 // AuthAdminPayload тело запроса для получения JWT токена админом
 type AuthAdminPayload struct {
-	Login string `json:"login" xml:"login" form:"login"`
+	Login    string `json:"login" xml:"login" form:"login"`
 	Password string `json:"password" xml:"password" form:"password"`
 }
 

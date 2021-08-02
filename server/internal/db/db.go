@@ -15,18 +15,17 @@ var PgConn *pgxpool.Pool
 
 // User информация о команде, возвращаемая из базы
 type User struct {
-	Team    int `db:"team" json:"team"`
+	Team int `db:"team" json:"team"`
 }
 
 type Admin struct {
-	Name    string `db:"name" json:"name"`
+	Name     string `db:"name" json:"name"`
 	Login    string `db:"login" json:"login"`
-	Password    string `db:"password" json:"password"`
+	Password string `db:"password" json:"password"`
 }
 
 type Progress struct {
 	UserId int
-
 }
 
 // PostgresConnect поднимает пул соединений с базой

@@ -5,9 +5,9 @@ import (
 )
 
 type SubmitResultPayload struct {
-	Day string `json:"day" xml:"day" form:"day"`
+	Day      string `json:"day" xml:"day" form:"day"`
 	Approval string `json:"approval" xml:"approval" form:"approval"`
-	Period string `json:"period" xml:"period" form:"period"`
+	Period   string `json:"period" xml:"period" form:"period"`
 }
 
 // SubmitResultController контроллер для логирования результатов обсчета события командой
@@ -20,4 +20,3 @@ func SubmitResultController(c *fiber.Ctx) error {
 	// TODO logic
 	return nil
 }
-

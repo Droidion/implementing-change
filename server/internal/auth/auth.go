@@ -12,23 +12,22 @@ import (
 
 // AuthenticatedPlayer данные авторизованного игрока
 type AuthenticatedPlayer struct {
-	Team int `json:"team"`
+	Team  int    `json:"team"`
 	Token string `json:"token"`
 }
 
 // AuthenticatedAdmin данные авторизованного админа
 type AuthenticatedAdmin struct {
 	Login string `json:"login"`
-	Name string `json:"name"`
+	Name  string `json:"name"`
 	Token string `json:"token"`
 }
-
 
 // TokenMetadata содержимое токена
 type TokenMetadata struct {
 	Expires int64
-	Team int
-	Role string
+	Team    int
+	Role    string
 }
 
 // AuthenticatePlayer пытается авторизовать пользователя и сгенерировать для него JWT токен
@@ -95,8 +94,8 @@ func ExtractTokenMetadata(c *fiber.Ctx) (*TokenMetadata, error) {
 	if ok && token.Valid {
 		return &TokenMetadata{
 			Expires: int64(claims["exp"].(float64)),
-			Team: claims["team"].(int),
-			Role: claims["exp"].(string),
+			Team:    claims["team"].(int),
+			Role:    claims["exp"].(string),
 		}, nil
 	}
 

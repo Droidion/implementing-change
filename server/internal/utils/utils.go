@@ -6,6 +6,7 @@ import (
 
 const otpChars = "1234567890"
 
+// GenerateOTP создает псевдослучайные пин-коды
 func GenerateOTP(length int) (string, error) {
 	buffer := make([]byte, length)
 	_, err := rand.Read(buffer)
