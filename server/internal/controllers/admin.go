@@ -4,6 +4,10 @@ import "github.com/gofiber/fiber/v2"
 
 // GenerateUsersController контроллер для генерации новой игры и пин-кодов игроков
 func GenerateUsersController(c *fiber.Ctx) error {
+	// TODO
+	// Помечаем все игры как неактивные
+	// Добавляем новую игру, помеченную как активную
+	// Генерируем и добавляем новых пользователей
 	return c.SendString("success")
 }
 
