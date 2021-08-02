@@ -13,11 +13,12 @@ var Ctx = context.Background()
 
 var PgConn *pgxpool.Pool
 
+// User информация о команде, возвращаемая из базы
 type User struct {
 	Team    int `db:"team" json:"team"`
 }
 
-// PostgresConnect tries to connect to Postgres database
+// PostgresConnect поднимает пул соединений с базой
 func PostgresConnect() {
 	var err error
 	PgConn, err = pgxpool.Connect(Ctx, os.Getenv("POSTGRES_URL"))
@@ -27,7 +28,7 @@ func PostgresConnect() {
 	}
 }
 
-// GetUserByPin searches for a user with a given pin code in a database
+// GetUserByPin ищет в базе команду по ее пин-коду
 func GetUserByPin(pin string) (*User, error) {
 	var users []*User
 	err := pgxscan.Select(Ctx, PgConn, &users, `SELECT team FROM users WHERE pin=$1`, pin)

@@ -10,18 +10,28 @@ import (
 	"time"
 )
 
-type AuthenticatedUser struct {
+// AuthenticatedPlayer данные авторизованного пользователя
+type AuthenticatedPlayer struct {
 	Team int `json:"team"`
 	Token string `json:"token"`
 }
 
+type AuthenticatedAdmin struct {
+	Login string `json:"login"`
+	Name string `json:"name"`
+	Token string `json:"token"`
+}
+
+
+// TokenMetadata содержимое токена
 type TokenMetadata struct {
 	Expires int64
 	Team int
 	Role string
 }
 
-func AuthenticateUser(pin string) (*AuthenticatedUser, error) {
+// AuthenticatePlayer пытается авторизовать пользователя и сгенерировать для него JWT токен
+func AuthenticatePlayer(pin string) (*AuthenticatedPlayer, error) {
 	user, err := db.GetUserByPin(pin)
 	if err != nil {
 		return nil, err
@@ -30,40 +40,35 @@ func AuthenticateUser(pin string) (*AuthenticatedUser, error) {
 	if err != nil {
 		return nil, err
 	}
-	authUser := AuthenticatedUser{Team: user.Team, Token: token}
+	authUser := AuthenticatedPlayer{Team: user.Team, Token: token}
 	return &authUser, nil
 }
 
-// GenerateNewAccessToken func for generate a new Access token.
+// AuthenticateAdmin пытается авторизовать админа и сгенерировать для него JWT токен
+func AuthenticateAdmin(login string, password string) (*AuthenticatedAdmin, error) {
+	// TODO логика авторизации админа
+	authUser := AuthenticatedAdmin{Login: "foo", Name: "bar", Token: "token"}
+	return &authUser, nil
+}
+
+// GenerateNewAccessToken генерирует новый JWT токен
 func generateNewAccessToken(team int, role string) (string, error) {
-	// Set secret key from .env file.
+	// TODO разнести логику генерации для игрока и админа
 	secret := os.Getenv("JWT_SECRET_KEY")
-
-	// Set expires minutes count for secret key from .env file.
 	minutesCount, _ := strconv.Atoi(os.Getenv("JWT_SECRET_KEY_EXPIRE_MINUTES_COUNT"))
-
-	// Create a new claims.
 	claims := jwt.MapClaims{}
-
-	// Set public claims:
 	claims["exp"] = time.Now().Add(time.Minute * time.Duration(minutesCount)).Unix()
 	claims["team"] = team
 	claims["role"] = role
-
-	// Create a new JWT access token with claims.
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-
-	// Generate token.
 	t, err := token.SignedString([]byte(secret))
 	if err != nil {
-		// Return error, it JWT token generation failed.
 		return "", err
 	}
-
 	return t, nil
 }
 
-// ExtractTokenMetadata func to extract metadata from JWT.
+// ExtractTokenMetadata достает данные из JWT токена.
 func ExtractTokenMetadata(c *fiber.Ctx) (*TokenMetadata, error) {
 	token, err := verifyToken(c)
 	if err != nil {
@@ -83,6 +88,19 @@ func ExtractTokenMetadata(c *fiber.Ctx) (*TokenMetadata, error) {
 	return nil, err
 }
 
+// verifyToken достает токен из http ответа и проверяет его валидность.
+func verifyToken(c *fiber.Ctx) (*jwt.Token, error) {
+	tokenString := extractToken(c)
+
+	token, err := jwt.Parse(tokenString, jwtKeyFunc)
+	if err != nil {
+		return nil, err
+	}
+
+	return token, nil
+}
+
+// extractToken достает токен из заголовка http запроса.
 func extractToken(c *fiber.Ctx) string {
 	bearToken := c.Get("Authorization")
 
@@ -95,17 +113,7 @@ func extractToken(c *fiber.Ctx) string {
 	return ""
 }
 
-func verifyToken(c *fiber.Ctx) (*jwt.Token, error) {
-	tokenString := extractToken(c)
-
-	token, err := jwt.Parse(tokenString, jwtKeyFunc)
-	if err != nil {
-		return nil, err
-	}
-
-	return token, nil
-}
-
+// jwtKeyFunc отдает ключ шифрования токена
 func jwtKeyFunc(token *jwt.Token) (interface{}, error) {
 	return []byte(os.Getenv("JWT_SECRET_KEY")), nil
 }
