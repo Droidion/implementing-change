@@ -10,12 +10,13 @@ import (
 	"time"
 )
 
-// AuthenticatedPlayer данные авторизованного пользователя
+// AuthenticatedPlayer данные авторизованного игрока
 type AuthenticatedPlayer struct {
 	Team int `json:"team"`
 	Token string `json:"token"`
 }
 
+// AuthenticatedAdmin данные авторизованного админа
 type AuthenticatedAdmin struct {
 	Login string `json:"login"`
 	Name string `json:"name"`
@@ -46,8 +47,22 @@ func AuthenticatePlayer(pin string) (*AuthenticatedPlayer, error) {
 
 // AuthenticateAdmin пытается авторизовать админа и сгенерировать для него JWT токен
 func AuthenticateAdmin(login string, password string) (*AuthenticatedAdmin, error) {
-	// TODO логика авторизации админа
-	authUser := AuthenticatedAdmin{Login: "foo", Name: "bar", Token: "token"}
+	admin, err := db.GetAdminByLogin(login)
+	if err != nil {
+		return nil, err
+	}
+
+	err = CompareHashAndPassword(admin.Password, password)
+	if err != nil {
+		return nil, err
+	}
+
+	token, err := generateNewAccessToken(0, "admin")
+	if err != nil {
+		return nil, err
+	}
+
+	authUser := AuthenticatedAdmin{Login: admin.Login, Name: admin.Name, Token: token}
 	return &authUser, nil
 }
 

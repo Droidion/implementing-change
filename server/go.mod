@@ -3,6 +3,8 @@ module github.com/droidion/implementing-change
 go 1.16
 
 require (
+	github.com/alexedwards/argon2id v0.0.0-20210511081203-7d35d68092b8 // indirect
+	github.com/andskur/argon2-hashing v0.1.3 // indirect
 	github.com/andybalholm/brotli v1.0.3 // indirect
 	github.com/georgysavva/scany v0.2.9
 	github.com/gofiber/fiber/v2 v2.16.0

@@ -18,6 +18,12 @@ type User struct {
 	Team    int `db:"team" json:"team"`
 }
 
+type Admin struct {
+	Name    string `db:"name" json:"name"`
+	Login    string `db:"login" json:"login"`
+	Password    string `db:"password" json:"password"`
+}
+
 // PostgresConnect поднимает пул соединений с базой
 func PostgresConnect() {
 	var err error
@@ -39,4 +45,16 @@ func GetUserByPin(pin string) (*User, error) {
 		return nil, eris.New("no users found in a db")
 	}
 	return users[0], nil
+}
+
+func GetAdminByLogin(login string) (*Admin, error) {
+	var admins []*Admin
+	err := pgxscan.Select(Ctx, PgConn, &admins, `SELECT name, login, password FROM admins WHERE login=$1`, login)
+	if err != nil {
+		return nil, eris.Wrap(err, "problem with querying admin from a db")
+	}
+	if admins == nil {
+		return nil, eris.New("no admins found in a db")
+	}
+	return admins[0], nil
 }
