@@ -24,6 +24,11 @@ type Admin struct {
 	Password    string `db:"password" json:"password"`
 }
 
+type Progress struct {
+	UserId int
+
+}
+
 // PostgresConnect поднимает пул соединений с базой
 func PostgresConnect() {
 	var err error
