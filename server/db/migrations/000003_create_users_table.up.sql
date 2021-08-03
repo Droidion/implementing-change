@@ -3,7 +3,6 @@ create table if not exists users
     id serial,
     team int not null,
     pin text not null,
-    is_active boolean not null,
     game_id int not null
 );
 

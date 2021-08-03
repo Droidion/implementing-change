@@ -2,6 +2,7 @@ package utils
 
 import (
 	"crypto/rand"
+	"github.com/droidion/implementing-change/internal/db"
 )
 
 const otpChars = "1234567890"
@@ -20,4 +21,20 @@ func GenerateOTP(length int) (string, error) {
 	}
 
 	return string(buffer), nil
+}
+
+func GenerateTeams(teamCount int, gameId int) []db.Team {
+	teams := make([]db.Team, teamCount)
+	for i := 0; i < teamCount; i++ {
+		pin, err := GenerateOTP(6)
+		if err != nil {
+			pin = ""
+		}
+		teams[i] = db.Team{
+			Team: i + 1,
+			GameId: gameId,
+			Pin: pin,
+		}
+	}
+	return teams
 }

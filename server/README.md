@@ -18,7 +18,9 @@ API для работы с интерфейсом игры и админкой.
 
 Поднимите локальный сервер базы данных [Postgres](https://www.postgresql.org/download/).
 
-Скачайте и положите в PATH бинарник утилиты для миграций [migrate](https://github.com/golang-migrate/migrate).
+Установите [migrate](https://github.com/golang-migrate/migrate/tree/master/cmd/migrate)
+
+Создайте пустую базу данных под игру.
 
 Актуализируйте переменные окружения в файле `.env`.
 

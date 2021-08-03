@@ -10,6 +10,13 @@ func response401(c *fiber.Ctx, err error) error {
 	})
 }
 
+func response400(c *fiber.Ctx, err error) error {
+	return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+		"error": true,
+		"msg":   err.Error(),
+	})
+}
+
 // NotFoundControllers контроллер для не найденного пути
 func NotFoundControllers(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusNotFound).JSON(fiber.Map{

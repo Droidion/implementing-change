@@ -31,6 +31,8 @@ github.com/gofiber/fiber/v2 v2.16.0 h1:Bly40vAh4qofpCoVYGLYC0TS9lNGNA1OVSPuzhIK7
 github.com/gofiber/fiber/v2 v2.16.0/go.mod h1:iftruuHGkRYGEXVISmdD7HTYWyfS2Bh+Dkfq4n/1Owg=
 github.com/gofiber/jwt/v2 v2.2.4 h1:SRlDFjVbw71weTZBC4CvHUx/fRQklw+5kMDFRNI531c=
 github.com/gofiber/jwt/v2 v2.2.4/go.mod h1:KaYJcFsAXfPYBcji2EfAavL0FX+gTh3f3aFx8BumAsE=
+github.com/gofiber/jwt/v2 v2.2.5 h1:yF7GQSWD6NCG1c/s2Db/trITTehG5dyYQW7ItDi7MO4=
+github.com/gofiber/jwt/v2 v2.2.5/go.mod h1:KHgcUv1J0Dc14ZCgRzFWO8GKakRT6uPcPcxbIEKmo4g=
 github.com/gofrs/uuid v3.2.0+incompatible/go.mod h1:b2aQJv3Z4Fp6yNu3cdSllBxTCLRxnplIgP/c0N/04lM=
 github.com/gofrs/uuid v4.0.0+incompatible/go.mod h1:b2aQJv3Z4Fp6yNu3cdSllBxTCLRxnplIgP/c0N/04lM=
 github.com/golang-jwt/jwt v3.2.1+incompatible/go.mod h1:8pz2t5EyA70fFQQSrl6XZXzqecmYZeUEB8OUGHkxJ+I=
@@ -122,6 +124,8 @@ github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+o
 github.com/klauspost/compress v1.12.2/go.mod h1:8dP1Hq4DHOhN9w426knH3Rhby4rFm6D8eO+e+Dq5Gzg=
 github.com/klauspost/compress v1.13.1 h1:wXr2uRxZTJXHLly6qhJabee5JqIhTRoLBhDOA74hDEQ=
 github.com/klauspost/compress v1.13.1/go.mod h1:8dP1Hq4DHOhN9w426knH3Rhby4rFm6D8eO+e+Dq5Gzg=
+github.com/klauspost/compress v1.13.2 h1:YecVYiuZPySnUyT8Ar9d5VawPwybeQw9IcwsLfdfdEk=
+github.com/klauspost/compress v1.13.2/go.mod h1:8dP1Hq4DHOhN9w426knH3Rhby4rFm6D8eO+e+Dq5Gzg=
 github.com/konsorten/go-windows-terminal-sequences v1.0.1/go.mod h1:T0+1ngSBFLxvqU3pZ+m/2kptfBszLMUkC4ZK/EgS/cQ=
 github.com/konsorten/go-windows-terminal-sequences v1.0.2/go.mod h1:T0+1ngSBFLxvqU3pZ+m/2kptfBszLMUkC4ZK/EgS/cQ=
 github.com/kr/pretty v0.1.0/go.mod h1:dAy3ld7l9f0ibDNOQOHHMYYIIbhfbHSm3C4ZsoJORNo=

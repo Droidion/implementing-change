@@ -21,7 +21,7 @@ func addPlayerRoutes(app *fiber.App) {
 // addAdminRoutes регистрирует админские маршруты, защищенные через JWT
 func addAdminRoutes(app *fiber.App) {
 	route := app.Group("/api/admin")
-	route.Get("/generate_users", JWTProtected(), controllers.GenerateUsersController)
+	route.Post("/generate_users", JWTProtected(), controllers.GenerateUsersController)
 	route.Get("/stop_game", JWTProtected(), controllers.StopGameController)
 	route.Get("/resume_game", JWTProtected(), controllers.ResumeGameController)
 	route.Get("/game_results", JWTProtected(), controllers.GameResultsController)

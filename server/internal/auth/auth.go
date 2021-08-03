@@ -41,6 +41,7 @@ func AuthenticatePlayer(pin string) (*AuthenticatedPlayer, error) {
 		return nil, err
 	}
 	authUser := AuthenticatedPlayer{Team: user.Team, Token: token}
+	db.LogSignIn(user)
 	return &authUser, nil
 }
 
@@ -94,8 +95,8 @@ func ExtractTokenMetadata(c *fiber.Ctx) (*TokenMetadata, error) {
 	if ok && token.Valid {
 		return &TokenMetadata{
 			Expires: int64(claims["exp"].(float64)),
-			Team:    claims["team"].(int),
-			Role:    claims["exp"].(string),
+			Team:    int(claims["team"].(float64)),
+			Role:    claims["role"].(string),
 		}, nil
 	}
 
