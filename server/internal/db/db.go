@@ -41,6 +41,14 @@ type UserProgress struct {
 	Period   int `json:"period" xml:"period" form:"period"`
 }
 
+type GameProgress struct {
+	Team int `json:"team"`
+	Day int `json:"day"`
+	Approval int `json:"approval"`
+	Period int `json:"period"`
+	Tries int `json:"tries"`
+}
+
 // PostgresConnect поднимает пул соединений с базой
 func PostgresConnect() {
 	var err error
@@ -81,6 +89,11 @@ func SetAllGamesAsInactive() error {
 	return err
 }
 
+func SetLatestGameAsActive() error {
+	_, err := PgConn.Exec(Ctx, "update games set is_active = true where id = (select id from games order by creation_date desc limit 1)")
+	return err
+}
+
 func CreateNewGame() (int, error) {
 	var ids []int
 	err := pgxscan.Select(Ctx, PgConn, &ids, `insert into games (creation_date, is_active) values (now(), true) returning id`)
@@ -116,4 +129,24 @@ func InsertResult(userId int, result *UserProgress) error {
 		return eris.Wrap(err, "could not log user signin")
 	}
 	return nil
+}
+
+func GetCurrentResults() (*[]GameProgress, error) {
+	const req = `
+select u.team, p.day, p.approval, p.period, count(s.id) tries
+from progress p
+         join users u on p.user_id = u.id
+         join games g on u.game_id = g.id
+         left join signins s on u.id = s.user_id
+where g.is_active = true
+group by u.team, p.day, p.approval, p.period
+order by u.team
+`
+	var results []GameProgress
+	err := pgxscan.Select(Ctx, PgConn, &results, req)
+	if err != nil {
+		return nil, eris.Wrap(err, "could not find data")
+	}
+
+	return &results, nil
 }

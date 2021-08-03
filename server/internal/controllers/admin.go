@@ -53,17 +53,33 @@ func GenerateUsersController(c *fiber.Ctx) error {
 // StopGameController контроллер для приостановки игры
 func StopGameController(c *fiber.Ctx) error {
 	checkAdmin(c)
-	return c.SendString("success")
+	err := db.SetAllGamesAsInactive()
+	if err != nil {
+		return err
+	}
+	return c.SendStatus(fiber.StatusOK)
 }
 
 // ResumeGameController контроллер для возобновления игры
 func ResumeGameController(c *fiber.Ctx) error {
 	checkAdmin(c)
+	err := db.SetAllGamesAsInactive()
+	if err != nil {
+		return err
+	}
+	err = db.SetLatestGameAsActive()
+	if err != nil {
+		return err
+	}
 	return c.SendString("success")
 }
 
 // GameResultsController контроллер для получения результатов игры
 func GameResultsController(c *fiber.Ctx) error {
 	checkAdmin(c)
-	return c.SendString("success")
+	results, err := db.GetCurrentResults()
+	if err != nil {
+		return err
+	}
+	return c.JSON(results)
 }
