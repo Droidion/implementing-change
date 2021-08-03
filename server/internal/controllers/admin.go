@@ -26,7 +26,7 @@ func checkAdmin(c *fiber.Ctx) error {
 
 // GenerateUsersController контроллер для генерации новой игры и пин-кодов игроков
 func GenerateUsersController(c *fiber.Ctx) error {
-	checkAdmin(c)
+	_ = checkAdmin(c)
 
 	payload := new(GenerateUsers)
 	if err := c.BodyParser(payload); err != nil {
@@ -45,14 +45,17 @@ func GenerateUsersController(c *fiber.Ctx) error {
 
 	teams := utils.GenerateTeams(payload.TeamsCount, gameId)
 
-	db.InsertTeams(teams)
+	err = db.InsertTeams(teams)
+	if err != nil {
+		return response400(c, err)
+	}
 
 	return c.SendStatus(fiber.StatusOK)
 }
 
 // StopGameController контроллер для приостановки игры
 func StopGameController(c *fiber.Ctx) error {
-	checkAdmin(c)
+	_ = checkAdmin(c)
 	err := db.SetAllGamesAsInactive()
 	if err != nil {
 		return err
@@ -62,7 +65,7 @@ func StopGameController(c *fiber.Ctx) error {
 
 // ResumeGameController контроллер для возобновления игры
 func ResumeGameController(c *fiber.Ctx) error {
-	checkAdmin(c)
+	_ = checkAdmin(c)
 	err := db.SetAllGamesAsInactive()
 	if err != nil {
 		return err
@@ -76,10 +79,19 @@ func ResumeGameController(c *fiber.Ctx) error {
 
 // GameResultsController контроллер для получения результатов игры
 func GameResultsController(c *fiber.Ctx) error {
-	checkAdmin(c)
+	_ = checkAdmin(c)
 	results, err := db.GetCurrentResults()
 	if err != nil {
 		return err
 	}
 	return c.JSON(results)
+}
+
+func UsersController(c *fiber.Ctx) error {
+	_ = checkAdmin(c)
+	users, err := db.GetUsers()
+	if err != nil {
+		return err
+	}
+	return c.JSON(users)
 }

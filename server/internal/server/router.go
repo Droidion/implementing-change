@@ -25,7 +25,7 @@ func addAdminRoutes(app *fiber.App) {
 	route.Get("/stop_game", JWTProtected(), controllers.StopGameController)
 	route.Get("/resume_game", JWTProtected(), controllers.ResumeGameController)
 	route.Get("/game_results", JWTProtected(), controllers.GameResultsController)
-	// TODO add route for the list of users with pincodes
+	route.Get("/users", JWTProtected(), controllers.UsersController)
 }
 
 // addServiceRoutes регистрирует обработчик для не найденной страницы

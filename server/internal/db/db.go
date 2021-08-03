@@ -19,6 +19,13 @@ type User struct {
 	UserId int `db:"user_id" json:"userId"`
 }
 
+type UserFull struct {
+	UserId int `db:"id" json:"userId"`
+	Team int `db:"team" json:"team"`
+	Pin string `db:"pin" json:"pin"`
+}
+
+
 type Admin struct {
 	Name     string `db:"name" json:"name"`
 	Login    string `db:"login" json:"login"`
@@ -149,4 +156,20 @@ order by u.team
 	}
 
 	return &results, nil
+}
+
+func GetUsers() (*[]UserFull, error) {
+	const req = `
+select u.id, u.team, u.pin
+from users u join games g on u.game_id = g.id
+where g.is_active = true
+order by u.team
+`
+	var users []UserFull
+	err := pgxscan.Select(Ctx, PgConn, &users, req)
+	if err != nil {
+		return nil, eris.Wrap(err, "could not find data")
+	}
+
+	return &users, nil
 }
