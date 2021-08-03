@@ -12,7 +12,7 @@ require (
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/jackc/pgx/v4 v4.13.0
 	github.com/joho/godotenv v1.3.0
-	github.com/klauspost/compress v1.13.2 // indirect
+	github.com/klauspost/compress v1.13.3 // indirect
 	github.com/rotisserie/eris v0.5.1
 	github.com/stretchr/objx v0.3.0 // indirect
 	github.com/valyala/fasthttp v1.28.0 // indirect

@@ -27,6 +27,7 @@ type AuthenticatedAdmin struct {
 type TokenMetadata struct {
 	Expires int64
 	Team    int
+	UserId    int
 	Role    string
 }
 
@@ -36,7 +37,7 @@ func AuthenticatePlayer(pin string) (*AuthenticatedPlayer, error) {
 	if err != nil {
 		return nil, err
 	}
-	token, err := generateNewAccessToken(user.Team, "player")
+	token, err := generateNewAccessToken(user.UserId, user.Team, "player")
 	if err != nil {
 		return nil, err
 	}
@@ -57,7 +58,7 @@ func AuthenticateAdmin(login string, password string) (*AuthenticatedAdmin, erro
 		return nil, err
 	}
 
-	token, err := generateNewAccessToken(0, "admin")
+	token, err := generateNewAccessToken(0, 0, "admin")
 	if err != nil {
 		return nil, err
 	}
@@ -67,7 +68,7 @@ func AuthenticateAdmin(login string, password string) (*AuthenticatedAdmin, erro
 }
 
 // GenerateNewAccessToken генерирует новый JWT токен
-func generateNewAccessToken(team int, role string) (string, error) {
+func generateNewAccessToken(userId int, team int, role string) (string, error) {
 	// TODO разнести логику генерации для игрока и админа
 	secret := os.Getenv("JWT_SECRET_KEY")
 	minutesCount, _ := strconv.Atoi(os.Getenv("JWT_SECRET_KEY_EXPIRE_MINUTES_COUNT"))
@@ -75,6 +76,7 @@ func generateNewAccessToken(team int, role string) (string, error) {
 	claims["exp"] = time.Now().Add(time.Minute * time.Duration(minutesCount)).Unix()
 	claims["team"] = team
 	claims["role"] = role
+	claims["userId"] = userId
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	t, err := token.SignedString([]byte(secret))
 	if err != nil {
@@ -97,6 +99,7 @@ func ExtractTokenMetadata(c *fiber.Ctx) (*TokenMetadata, error) {
 			Expires: int64(claims["exp"].(float64)),
 			Team:    int(claims["team"].(float64)),
 			Role:    claims["role"].(string),
+			UserId:    int(claims["userId"].(float64)),
 		}, nil
 	}
 

@@ -35,6 +35,12 @@ type Team struct {
 	Pin string `db:"pin" json:"pin"`
 }
 
+type UserProgress struct {
+	Day      int `json:"day" xml:"day" form:"day"`
+	Approval int `json:"approval" xml:"approval" form:"approval"`
+	Period   int `json:"period" xml:"period" form:"period"`
+}
+
 // PostgresConnect поднимает пул соединений с базой
 func PostgresConnect() {
 	var err error
@@ -98,6 +104,14 @@ func InsertTeams(teams []Team) error {
 
 func LogSignIn(user *User) error {
 	_, err := PgConn.Exec(Ctx, `insert into signins (user_id, timestamp) values ($1, now())`, user.UserId)
+	if err != nil {
+		return eris.Wrap(err, "could not log user signin")
+	}
+	return nil
+}
+
+func InsertResult(userId int, result *UserProgress) error {
+	_, err := PgConn.Exec(Ctx, `insert into progress (user_id, timestamp, day, approval, period) values ($1, now(), $2, $3, $4)`, userId, result.Day, result.Approval, result.Period)
 	if err != nil {
 		return eris.Wrap(err, "could not log user signin")
 	}
