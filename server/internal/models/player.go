@@ -11,7 +11,7 @@ import (
 // PlayerBrief Краткая информация об игроке, доступная самому игроку
 type PlayerBrief struct {
 	Team int `db:"team" json:"team"`
-	UserId int `db:"player_id" json:"playerId"`
+	PlayerId int `db:"player_id" json:"playerId"`
 }
 
 
@@ -41,7 +41,7 @@ func AuthenticatePlayer(pin string) (*PlayerAuthenticated, error) {
 	if err != nil {
 		return nil, eris.Wrap(err, "error finding player by pin in db")
 	}
-	token, err := GenerateNewAccessToken(player.UserId, player.Team, "player")
+	token, err := GenerateNewAccessToken(player.PlayerId, player.Team, "player")
 	if err != nil {
 		return nil, eris.Wrap(err, "error generating new access token")
 	}

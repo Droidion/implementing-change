@@ -9,21 +9,21 @@ import (
 
 // Админские контроллеры
 
-// GenerateUsersPayload тело запроса на создание новой игры и пин-кодов игроков
-type GenerateUsersPayload struct {
+// GeneratePlayersPayload тело запроса на создание новой игры и пин-кодов игроков
+type GeneratePlayersPayload struct {
 	// Количество команд, для которых нужно создать новую игру и сгенерировать пин-коды
 	TeamsCount int `json:"teamsCount" xml:"teamsCount" form:"teamsCount"`
 }
 
-// GenerateUsersController контроллер для генерации новой игры и пин-кодов игроков
-func GenerateUsersController(c *fiber.Ctx) error {
+// GeneratePlayersController контроллер для генерации новой игры и пин-кодов игроков
+func GeneratePlayersController(c *fiber.Ctx) error {
 	// Проверяем что админ
 	if checkAdmin(c) != nil {
 		log.Error().Msg("HTTP Unauthorized. Could not confirm admin role")
 		return c.Status(fiber.StatusUnauthorized).SendString("Could not confirm admin role")
 	}
 	// Достаем и проверяем тело запроса
-	payload := new(GenerateUsersPayload)
+	payload := new(GeneratePlayersPayload)
 	if err := c.BodyParser(payload); err != nil {
 		log.Error().Msg("HTTP Unauthorized. Could not extract token data")
 		return c.Status(fiber.StatusUnauthorized).SendString("Could not extract token data")
@@ -102,28 +102,28 @@ func GameResultsController(c *fiber.Ctx) error {
 	// Получаем из базы результаты игры
 	results, err := models.GetCurrentResults()
 	if err != nil {
-		log.Error().Err(err).Msg("HTTP Internal Server Error. Could not get game resulsts from db")
-		return c.Status(fiber.StatusInternalServerError).SendString("Could not get game resulsts from db")
+		log.Error().Err(err).Msg("HTTP Internal Server Error. Could not get game results from db")
+		return c.Status(fiber.StatusInternalServerError).SendString("Could not get game results from db")
 	}
 	// Отправляем результаты в http ответе
 	return c.JSON(results)
 }
 
-// UsersController контроллер для получения админом списка пользователей
-func UsersController(c *fiber.Ctx) error {
+// PlayersController контроллер для получения админом списка пользователей
+func PlayersController(c *fiber.Ctx) error {
 	// Проверяем что админ
 	if checkAdmin(c) != nil {
 		log.Error().Msg("HTTP Unauthorized. Could not confirm admin role")
 		return c.Status(fiber.StatusUnauthorized).SendString("Could not confirm admin role")
 	}
 	// Получаем из базы список пользователей по активной игре
-	users, err := models.GetPlayers()
+	players, err := models.GetPlayers()
 	if err != nil {
 		log.Error().Err(err).Msg("HTTP Internal Server Error. Could not get players from db")
 		return c.Status(fiber.StatusInternalServerError).SendString("Could not get players from db")
 	}
 	// Отправляем пользователей в http ответе
-	return c.JSON(users)
+	return c.JSON(players)
 }
 
 // checkAdmin проверяет, что в токене указана роль админа

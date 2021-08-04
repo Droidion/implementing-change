@@ -24,19 +24,3 @@ func PostgresConnect() {
 	}
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

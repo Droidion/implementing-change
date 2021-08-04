@@ -28,13 +28,13 @@ func AuthPlayerController(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).SendString("Incorrect request body")
 	}
 	// Валидируем пользователя по пин-коду
-	user, err := models.AuthenticatePlayer(payload.Pin)
+	player, err := models.AuthenticatePlayer(payload.Pin)
 	if err != nil {
-		log.Error().Err(err).Msg("HTTP Unauthorized. User not recognized")
-		return c.Status(fiber.StatusUnauthorized).SendString("User not recognized")
+		log.Error().Err(err).Msg("HTTP Unauthorized. Player not recognized")
+		return c.Status(fiber.StatusUnauthorized).SendString("Player not recognized")
 	}
 	// Отправляем
-	return c.JSON(&user)
+	return c.JSON(&player)
 }
 
 // AuthAdminController контроллер для получения JWT токена админом

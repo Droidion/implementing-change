@@ -9,9 +9,9 @@ import (
 
 // LogSignIn сохраняет в базу время захода пользователя в игру.
 // Под заходом в игру понимается авторизация в системе и получение токена игрока.
-func LogSignIn(user *PlayerBrief) error {
-	const sql = `insert into signins (user_id, timestamp) values ($1, now())`
-	_, err := utils.PgConn.Exec(utils.Ctx, sql, user.UserId)
+func LogSignIn(player *PlayerBrief) error {
+	const sql = `insert into signins (player_id, timestamp) values ($1, now())`
+	_, err := utils.PgConn.Exec(utils.Ctx, sql, player.PlayerId)
 	if err != nil {
 		return eris.Wrap(err, "error inserting player sign in event to db")
 	}

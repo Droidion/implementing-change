@@ -19,16 +19,16 @@ type Result struct {
 // GetCurrentResults возвращает из базы результаты игры все команд
 func GetCurrentResults() (*[]Result, error) {
 	const sql = `
-select u.team, p.day, p.approval, p.period, count(s.id) tries
-from progress p
-         join users u on p.user_id = u.id
-         join games g on u.game_id = g.id
-         left join signins s on u.id = s.user_id
+select pl.team, pr.day, pr.approval, pr.period, count(s.id) tries
+from progress pr
+         join players pl on pr.player_id = pl.id
+         join games g on pl.game_id = g.id
+         left join signins s on pl.id = s.player_id
 where g.is_active = true
-group by u.team, p.day, p.approval, p.period
-order by u.team
+group by pl.team, pr.day, pr.approval, pr.period
+order by pl.team
 `
-	var results []Result
+	results := make([]Result, 0)
 	err := pgxscan.Select(utils.Ctx, utils.PgConn, &results, sql)
 	if err != nil {
 		return nil, eris.Wrap(err, "error getting game results from db")
