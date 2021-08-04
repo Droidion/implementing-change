@@ -6,6 +6,8 @@ import (
 	"log"
 )
 
+// Функции для работы с веб-сервером
+
 // StartServer стартует веб-сервер fiber
 func StartServer() {
 	app := fiber.New()

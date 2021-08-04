@@ -1,9 +1,11 @@
 package controllers
 
 import (
-	"github.com/droidion/implementing-change/internal/auth"
+	"github.com/droidion/implementing-change/internal/models"
 	"github.com/gofiber/fiber/v2"
 )
+
+// Контроллеры для аутентификации и получения токена
 
 // AuthPlayerPayload тело запроса для получения JWT токена игроком
 type AuthPlayerPayload struct {
@@ -18,26 +20,29 @@ type AuthAdminPayload struct {
 
 // AuthPlayerController контроллер для получения JWT токена игроком
 func AuthPlayerController(c *fiber.Ctx) error {
+	// Извлекаем параметры тела запроса
 	payload := new(AuthPlayerPayload)
 	if err := c.BodyParser(payload); err != nil {
 		return response401(c, err)
 	}
-
-	user, err := auth.AuthenticatePlayer(payload.Pin)
+	// Валидируем пользователя по пин-коду
+	user, err := models.AuthenticatePlayer(payload.Pin)
 	if err != nil {
 		return response401(c, err)
 	}
+	// Отправляем
 	return c.JSON(&user)
 }
 
 // AuthAdminController контроллер для получения JWT токена админом
 func AuthAdminController(c *fiber.Ctx) error {
+	// Извлекаем параметры тела запроса
 	payload := new(AuthAdminPayload)
 	if err := c.BodyParser(payload); err != nil {
 		return response401(c, err)
 	}
 
-	user, err := auth.AuthenticateAdmin(payload.Login, payload.Password)
+	user, err := models.AuthenticateAdmin(payload.Login, payload.Password)
 	if err != nil {
 		return response401(c, err)
 	}

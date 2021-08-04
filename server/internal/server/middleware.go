@@ -7,15 +7,15 @@ import (
 	jwtMiddleware "github.com/gofiber/jwt/v2"
 )
 
-// JWTProtected добавляет middleware для проверки JWT токена в запрос.
+// Middleware сервера
+
+// JWTProtected инициализирует middleware для проверки JWT токена в запросе.
 func JWTProtected() func(*fiber.Ctx) error {
-	// Create config for JWT authentication middleware.
 	config := jwtMiddleware.Config{
 		SigningKey:   []byte(os.Getenv("JWT_SECRET_KEY")),
 		ContextKey:   "jwt", // used in private routes
 		ErrorHandler: jwtError,
 	}
-
 	return jwtMiddleware.New(config)
 }
 
@@ -25,11 +25,8 @@ func jwtError(c *fiber.Ctx, err error) error {
 		"error": true,
 		"msg":   err.Error(),
 	}
-	// Return status 401 and failed authentication error.
 	if err.Error() == "Missing or malformed JWT" {
 		return c.Status(fiber.StatusBadRequest).JSON(errObj)
 	}
-
-	// Return status 401 and failed authentication error.
 	return c.Status(fiber.StatusUnauthorized).JSON(errObj)
 }

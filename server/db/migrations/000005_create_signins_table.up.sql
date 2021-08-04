@@ -10,6 +10,6 @@ alter table signins
         primary key (id);
 
 alter table signins
-    add constraint users_fk
+    add constraint players_fk
         foreign key (user_id)
-            references users(id);
+            references players(id);

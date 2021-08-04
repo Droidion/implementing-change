@@ -2,6 +2,8 @@ package controllers
 
 import "github.com/gofiber/fiber/v2"
 
+// Вспомогательные функции контроллеров
+
 // response401 содержание ответа для не найденной страницы
 func response401(c *fiber.Ctx, err error) error {
 	return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{

@@ -17,6 +17,6 @@ alter table progress
         primary key (id);
 
 alter table progress
-    add constraint users_fk
+    add constraint players_fk
         foreign key (user_id)
-            references users(id);
+            references players(id);
