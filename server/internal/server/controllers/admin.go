@@ -10,7 +10,7 @@ import (
 // GenerateUsersPayload тело запроса на создание новой игры и пин-кодов игроков
 type GenerateUsersPayload struct {
 	// Количество команд, для которых нужно создать новую игру и сгенерировать пин-коды
-	TeamsCount      int `json:"teamsCount" xml:"teamsCount" form:"teamsCount"`
+	TeamsCount int `json:"teamsCount" xml:"teamsCount" form:"teamsCount"`
 }
 
 // GenerateUsersController контроллер для генерации новой игры и пин-кодов игроков
