@@ -1,7 +1,7 @@
 package models
 
 import (
-	"github.com/droidion/implementing-change/internal/db"
+	"github.com/droidion/implementing-change/internal/utils"
 	"github.com/georgysavva/scany/pgxscan"
 	"github.com/rotisserie/eris"
 )
@@ -29,9 +29,9 @@ group by u.team, p.day, p.approval, p.period
 order by u.team
 `
 	var results []Result
-	err := pgxscan.Select(db.Ctx, db.PgConn, &results, sql)
+	err := pgxscan.Select(utils.Ctx, utils.PgConn, &results, sql)
 	if err != nil {
-		return nil, eris.Wrap(err, "could not find data")
+		return nil, eris.Wrap(err, "error getting game results from db")
 	}
 	return &results, nil
 }

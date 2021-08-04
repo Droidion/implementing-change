@@ -1,7 +1,7 @@
 package models
 
 import (
-	"github.com/droidion/implementing-change/internal/db"
+	"github.com/droidion/implementing-change/internal/utils"
 	"github.com/georgysavva/scany/pgxscan"
 	"github.com/rotisserie/eris"
 )
@@ -39,15 +39,15 @@ type PlayerAuthenticated struct {
 func AuthenticatePlayer(pin string) (*PlayerAuthenticated, error) {
 	player, err := GetPlayerByPin(pin)
 	if err != nil {
-		return nil, err
+		return nil, eris.Wrap(err, "error finding player by pin in db")
 	}
 	token, err := GenerateNewAccessToken(player.UserId, player.Team, "player")
 	if err != nil {
-		return nil, err
+		return nil, eris.Wrap(err, "error generating new access token")
 	}
 	authUser := PlayerAuthenticated{Team: player.Team, Token: token}
 	LogSignIn(player)
-	return &authUser, nil
+	return &authUser, eris.Wrap(err, "error authenticating user")
 }
 
 // GeneratePlayers генерирует указанное количество команд игроков и их пин-кодов с привязкой к указанной игре
@@ -71,12 +71,12 @@ func GeneratePlayers(teamCount int, gameId int) []PlayerGenerated {
 func GetPlayerByPin(pin string) (*PlayerBrief, error) {
 	const sql = `SELECT players.team, players.id AS player_id FROM players JOIN games ON games.id = players.game_id AND games.is_active = true WHERE players.pin=$1`
 	var players []*PlayerBrief
-	err := pgxscan.Select(db.Ctx, db.PgConn, &players, sql, pin)
+	err := pgxscan.Select(utils.Ctx, utils.PgConn, &players, sql, pin)
 	if err != nil {
-		return nil, eris.Wrap(err, "problem with querying player from a db")
+		return nil, eris.Wrap(err, "error getting player from a db")
 	}
 	if players == nil {
-		return nil, eris.New("no players found in a db")
+		return nil, eris.New("no player found in db with given pin")
 	}
 	return players[0], nil
 }
@@ -85,12 +85,11 @@ func GetPlayerByPin(pin string) (*PlayerBrief, error) {
 func InsertPlayers(teams []PlayerGenerated) error {
 	const sql = `insert into players (team, game_id, pin) values ($1, $2, $3)`
 	for i := 0; i < len(teams); i++ {
-		_, err := db.PgConn.Exec(db.Ctx, sql, teams[i].Team, teams[i].GameId, teams[i].Pin)
+		_, err := utils.PgConn.Exec(utils.Ctx, sql, teams[i].Team, teams[i].GameId, teams[i].Pin)
 		if err != nil {
-			return eris.Wrap(err, "could not insert new game")
+			return eris.Wrap(err, "error inserting new game to db")
 		}
 	}
-
 	return nil
 }
 
@@ -103,9 +102,9 @@ where g.is_active = true
 order by p.team
 `
 	var players []PlayerFull
-	err := pgxscan.Select(db.Ctx, db.PgConn, &players, sql)
+	err := pgxscan.Select(utils.Ctx, utils.PgConn, &players, sql)
 	if err != nil {
-		return nil, eris.Wrap(err, "could not find data")
+		return nil, eris.Wrap(err, "error getting list of players from db")
 	}
 
 	return &players, nil

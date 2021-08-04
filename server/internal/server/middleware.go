@@ -2,6 +2,7 @@ package server
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/rs/zerolog/log"
 	"os"
 
 	jwtMiddleware "github.com/gofiber/jwt/v2"
@@ -21,12 +22,10 @@ func JWTProtected() func(*fiber.Ctx) error {
 
 // jwtError формирует http ответ с ошибкой проверки токена.
 func jwtError(c *fiber.Ctx, err error) error {
-	errObj := fiber.Map{
-		"error": true,
-		"msg":   err.Error(),
-	}
 	if err.Error() == "Missing or malformed JWT" {
-		return c.Status(fiber.StatusBadRequest).JSON(errObj)
+		log.Error().Err(err).Msg("HTTP Bad Request. JWT parsing error")
+		return c.Status(fiber.StatusBadRequest).SendString("JWT parsing error")
 	}
-	return c.Status(fiber.StatusUnauthorized).JSON(errObj)
+	log.Error().Err(err).Msg("HTTP Unauthorized. No access based on JWT content")
+	return c.Status(fiber.StatusUnauthorized).SendString("No access based on JWT content")
 }

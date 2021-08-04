@@ -3,6 +3,8 @@ package controllers
 import (
 	"github.com/droidion/implementing-change/internal/models"
 	"github.com/gofiber/fiber/v2"
+	"github.com/rotisserie/eris"
+	"github.com/rs/zerolog/log"
 )
 
 // Админские контроллеры
@@ -16,28 +18,35 @@ type GenerateUsersPayload struct {
 // GenerateUsersController контроллер для генерации новой игры и пин-кодов игроков
 func GenerateUsersController(c *fiber.Ctx) error {
 	// Проверяем что админ
-	_ = checkAdmin(c)
+	if checkAdmin(c) != nil {
+		log.Error().Msg("HTTP Unauthorized. Could not confirm admin role")
+		return c.Status(fiber.StatusUnauthorized).SendString("Could not confirm admin role")
+	}
 	// Достаем и проверяем тело запроса
 	payload := new(GenerateUsersPayload)
 	if err := c.BodyParser(payload); err != nil {
-		return response400(c, err)
+		log.Error().Msg("HTTP Unauthorized. Could not extract token data")
+		return c.Status(fiber.StatusUnauthorized).SendString("Could not extract token data")
 	}
 	// Помечаем все игры в базе как неактивные
 	err := models.SetAllGamesAsInactive()
 	if err != nil {
-		return response401(c, err)
+		log.Error().Err(err).Msg("HTTP Internal Server Error. Could not mark all games as inactive in db")
+		return c.Status(fiber.StatusInternalServerError).SendString("Could not mark all games as inactive in db")
 	}
 	// Создаем новую активную игру
 	gameId, err := models.CreateNewGame()
 	if err != nil {
-		return response401(c, err)
+		log.Error().Err(err).Msg("HTTP Internal Server Error. Could not create new active game in db")
+		return c.Status(fiber.StatusInternalServerError).SendString("Could not create new active game in db")
 	}
 	// Генерируем команды с новыми пин-кодами и привязываем их к активной игре
 	teams := models.GeneratePlayers(payload.TeamsCount, gameId)
 	// Сохраняем новые команды в базу
 	err = models.InsertPlayers(teams)
 	if err != nil {
-		return response400(c, err)
+		log.Error().Err(err).Msg("HTTP Internal Server Error. Could not save new players to db")
+		return c.Status(fiber.StatusInternalServerError).SendString("Could not save new players to db")
 	}
 	// http ответ с успехом
 	return c.SendStatus(fiber.StatusOK)
@@ -46,11 +55,15 @@ func GenerateUsersController(c *fiber.Ctx) error {
 // StopGameController контроллер для приостановки игры
 func StopGameController(c *fiber.Ctx) error {
 	// Проверяем что админ
-	_ = checkAdmin(c)
+	if checkAdmin(c) != nil {
+		log.Error().Msg("HTTP Unauthorized. Could not confirm admin role")
+		return c.Status(fiber.StatusUnauthorized).SendString("Could not confirm admin role")
+	}
 	// Помечаем все игры как неактивные
 	err := models.SetAllGamesAsInactive()
 	if err != nil {
-		return err
+		log.Error().Err(err).Msg("HTTP Internal Server Error. Could not mark all games as inactive in db")
+		return c.Status(fiber.StatusInternalServerError).SendString("Could not mark all games as inactive in db")
 	}
 	// http ответ с успехом
 	return c.SendStatus(fiber.StatusOK)
@@ -59,16 +72,21 @@ func StopGameController(c *fiber.Ctx) error {
 // ResumeGameController контроллер для возобновления игры
 func ResumeGameController(c *fiber.Ctx) error {
 	// Проверяем что админ
-	_ = checkAdmin(c)
+	if checkAdmin(c) != nil {
+		log.Error().Msg("HTTP Unauthorized. Could not confirm admin role")
+		return c.Status(fiber.StatusUnauthorized).SendString("Could not confirm admin role")
+	}
 	// Помечаем все игры как неактивные
 	err := models.SetAllGamesAsInactive()
 	if err != nil {
-		return err
+		log.Error().Err(err).Msg("HTTP Internal Server Error. Could not mark all games as inactive in db")
+		return c.Status(fiber.StatusInternalServerError).SendString("Could not mark all games as inactive in db")
 	}
 	// Помечаем последнюю по дате создания игру как активную
 	err = models.SetLatestGameAsActive()
 	if err != nil {
-		return err
+		log.Error().Err(err).Msg("HTTP Internal Server Error. Could not set game as active in db")
+		return c.Status(fiber.StatusInternalServerError).SendString("Could not set game as active in db")
 	}
 	// http ответ с успехом
 	return c.SendStatus(fiber.StatusOK)
@@ -77,11 +95,15 @@ func ResumeGameController(c *fiber.Ctx) error {
 // GameResultsController контроллер для получения результатов игры
 func GameResultsController(c *fiber.Ctx) error {
 	// Проверяем что админ
-	_ = checkAdmin(c)
+	if checkAdmin(c) != nil {
+		log.Error().Msg("HTTP Unauthorized. Could not confirm admin role")
+		return c.Status(fiber.StatusUnauthorized).SendString("Could not confirm admin role")
+	}
 	// Получаем из базы результаты игры
 	results, err := models.GetCurrentResults()
 	if err != nil {
-		return err
+		log.Error().Err(err).Msg("HTTP Internal Server Error. Could not get game resulsts from db")
+		return c.Status(fiber.StatusInternalServerError).SendString("Could not get game resulsts from db")
 	}
 	// Отправляем результаты в http ответе
 	return c.JSON(results)
@@ -90,24 +112,30 @@ func GameResultsController(c *fiber.Ctx) error {
 // UsersController контроллер для получения админом списка пользователей
 func UsersController(c *fiber.Ctx) error {
 	// Проверяем что админ
-	_ = checkAdmin(c)
+	if checkAdmin(c) != nil {
+		log.Error().Msg("HTTP Unauthorized. Could not confirm admin role")
+		return c.Status(fiber.StatusUnauthorized).SendString("Could not confirm admin role")
+	}
 	// Получаем из базы список пользователей по активной игре
 	users, err := models.GetPlayers()
 	if err != nil {
-		return err
+		log.Error().Err(err).Msg("HTTP Internal Server Error. Could not get players from db")
+		return c.Status(fiber.StatusInternalServerError).SendString("Could not get players from db")
 	}
 	// Отправляем пользователей в http ответе
 	return c.JSON(users)
 }
 
-// checkAdmin проверяет, что в токене указана роль админа и выдает статус 401, если нет
+// checkAdmin проверяет, что в токене указана роль админа
 func checkAdmin(c *fiber.Ctx) error {
 	tokenMeta, err := models.ExtractTokenMetadata(c)
 	if err != nil {
-		return response401(c, err)
+		log.Error().Msg("Could not extract token data")
+		return eris.Wrap(err, "Could not extract token data")
 	}
 	if tokenMeta.Role != "admin" {
-		return c.SendStatus(fiber.StatusUnauthorized)
+		log.Error().Msg("Incorrect admin role in token")
+		return eris.Wrap(err, "Incorrect admin role in token")
 	}
 	return nil
 }
