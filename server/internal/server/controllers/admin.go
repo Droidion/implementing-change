@@ -128,11 +128,13 @@ func UsersController(c *fiber.Ctx) error {
 
 // checkAdmin проверяет, что в токене указана роль админа
 func checkAdmin(c *fiber.Ctx) error {
+	// Извлекаем все данные из токена
 	tokenMeta, err := models.ExtractTokenMetadata(c)
 	if err != nil {
 		log.Error().Msg("Could not extract token data")
 		return eris.Wrap(err, "Could not extract token data")
 	}
+	// Проверяем что роль админ
 	if tokenMeta.Role != "admin" {
 		log.Error().Msg("Incorrect admin role in token")
 		return eris.Wrap(err, "Incorrect admin role in token")

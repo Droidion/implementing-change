@@ -16,6 +16,7 @@ func SubmitResultController(c *fiber.Ctx) error {
 		log.Error().Err(err).Msg("HTTP Unauthorized. Could not extract data from token")
 		return c.Status(fiber.StatusUnauthorized).SendString("Could not extract data from token")
 	}
+	// Проверяем что в токене есть роль игрок
 	if tokenMeta.Role != "player" {
 		log.Error().Msg("HTTP Unauthorized. Incorrect user role in token")
 		return c.Status(fiber.StatusUnauthorized).SendString("Incorrect user role in token")

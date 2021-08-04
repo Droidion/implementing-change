@@ -5,6 +5,7 @@ import (
 	"gopkg.in/natefinch/lumberjack.v2"
 )
 
+// Инициализирует логирование
 func InitLogger() {
 	log.Logger = log.Output(&lumberjack.Logger{
 		Filename:   "implementing-change-server-go.log",

@@ -45,7 +45,7 @@ func AuthAdminController(c *fiber.Ctx) error {
 		log.Error().Err(err).Msg("HTTP Bad Request. Incorrect request body")
 		return c.Status(fiber.StatusBadRequest).SendString("Incorrect request body")
 	}
-
+	// Валидируем админа
 	user, err := models.AuthenticateAdmin(payload.Login, payload.Password)
 	if err != nil {
 		log.Error().Err(err).Msg("HTTP Unauthorized. Admin not recognized")
