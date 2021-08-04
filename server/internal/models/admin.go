@@ -45,8 +45,9 @@ func AuthenticateAdmin(login string, password string) (*AuthenticatedAdmin, erro
 
 // GetAdminByLogin возвращает из базы данные об админе по его логину
 func GetAdminByLogin(login string) (*Admin, error) {
+	const sql = `SELECT name, login, password FROM admins WHERE login=$1`
 	var admins []*Admin
-	err := pgxscan.Select(db.Ctx, db.PgConn, &admins, `SELECT name, login, password FROM admins WHERE login=$1`, login)
+	err := pgxscan.Select(db.Ctx, db.PgConn, &admins, sql, login)
 	if err != nil {
 		return nil, eris.Wrap(err, "problem with querying admin from a db")
 	}

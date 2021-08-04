@@ -69,8 +69,9 @@ func GeneratePlayers(teamCount int, gameId int) []PlayerGenerated {
 
 // GetPlayerByPin ищет в базе команду по ее пин-коду
 func GetPlayerByPin(pin string) (*PlayerBrief, error) {
+	const sql = `SELECT players.team, players.id AS player_id FROM players JOIN games ON games.id = players.game_id AND games.is_active = true WHERE players.pin=$1`
 	var players []*PlayerBrief
-	err := pgxscan.Select(db.Ctx, db.PgConn, &players, `SELECT players.team, players.id AS player_id FROM players JOIN games ON games.id = players.game_id AND games.is_active = true WHERE players.pin=$1`, pin)
+	err := pgxscan.Select(db.Ctx, db.PgConn, &players, sql, pin)
 	if err != nil {
 		return nil, eris.Wrap(err, "problem with querying player from a db")
 	}
@@ -82,8 +83,9 @@ func GetPlayerByPin(pin string) (*PlayerBrief, error) {
 
 // InsertPlayers добавляет в базу игроков
 func InsertPlayers(teams []PlayerGenerated) error {
+	const sql = `insert into players (team, game_id, pin) values ($1, $2, $3)`
 	for i := 0; i < len(teams); i++ {
-		_, err := db.PgConn.Exec(db.Ctx, `insert into players (team, game_id, pin) values ($1, $2, $3)`, teams[i].Team, teams[i].GameId, teams[i].Pin)
+		_, err := db.PgConn.Exec(db.Ctx, sql, teams[i].Team, teams[i].GameId, teams[i].Pin)
 		if err != nil {
 			return eris.Wrap(err, "could not insert new game")
 		}
@@ -94,14 +96,14 @@ func InsertPlayers(teams []PlayerGenerated) error {
 
 // GetPlayers возвращает из базы список игроков
 func GetPlayers() (*[]PlayerFull, error) {
-	const req = `
+	const sql = `
 select p.id player_id, p.team, p.pin, g.id game_id
 from players p join games g on p.game_id = g.id
 where g.is_active = true
 order by p.team
 `
 	var players []PlayerFull
-	err := pgxscan.Select(db.Ctx, db.PgConn, &players, req)
+	err := pgxscan.Select(db.Ctx, db.PgConn, &players, sql)
 	if err != nil {
 		return nil, eris.Wrap(err, "could not find data")
 	}

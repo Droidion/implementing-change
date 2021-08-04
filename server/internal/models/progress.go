@@ -17,7 +17,8 @@ type Progress struct {
 
 // InsertResult сохраняет в базу данных прогресс игры команды
 func InsertResult(userId int, result *Progress) error {
-	_, err := db.PgConn.Exec(db.Ctx, `insert into progress (user_id, timestamp, day, approval, period) values ($1, now(), $2, $3, $4)`, userId, result.Day, result.Approval, result.Period)
+	const sql = `insert into progress (user_id, timestamp, day, approval, period) values ($1, now(), $2, $3, $4)`
+	_, err := db.PgConn.Exec(db.Ctx, sql, userId, result.Day, result.Approval, result.Period)
 	if err != nil {
 		return eris.Wrap(err, "could not log user signin")
 	}

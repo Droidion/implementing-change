@@ -18,7 +18,7 @@ type Result struct {
 
 // GetCurrentResults возвращает из базы результаты игры все команд
 func GetCurrentResults() (*[]Result, error) {
-	const req = `
+	const sql = `
 select u.team, p.day, p.approval, p.period, count(s.id) tries
 from progress p
          join users u on p.user_id = u.id
@@ -29,7 +29,7 @@ group by u.team, p.day, p.approval, p.period
 order by u.team
 `
 	var results []Result
-	err := pgxscan.Select(db.Ctx, db.PgConn, &results, req)
+	err := pgxscan.Select(db.Ctx, db.PgConn, &results, sql)
 	if err != nil {
 		return nil, eris.Wrap(err, "could not find data")
 	}
