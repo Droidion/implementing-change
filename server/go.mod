@@ -6,8 +6,8 @@ require (
 	github.com/alexedwards/argon2id v0.0.0-20210511081203-7d35d68092b8
 	github.com/andybalholm/brotli v1.0.3 // indirect
 	github.com/georgysavva/scany v0.2.9
-	github.com/gofiber/fiber/v2 v2.16.0
-	github.com/gofiber/jwt/v2 v2.2.5
+	github.com/gofiber/fiber/v2 v2.17.0
+	github.com/gofiber/jwt/v2 v2.2.6
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/jackc/pgx/v4 v4.13.0
 	github.com/joho/godotenv v1.3.0
