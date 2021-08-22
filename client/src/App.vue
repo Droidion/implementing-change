@@ -14,11 +14,11 @@ export default defineComponent({
 @use 'styles/reset';
 @use 'styles/fonts';
 @use 'styles/colors';
+@use 'styles/inputs';
 
 body {
-  background-color: colors.$blackPearl;
-  color: colors.$mineShaft;
+  background-color: colors.$black-pearl;
+  color: colors.$mine-shaft;
   font-family: 'Roboto', sans-serif;
 }
-
 </style>

@@ -24,7 +24,7 @@ const routes: RouteRecordRaw[] = [
         path: 'planner',
         component: PlannerPage,
       },
-      { path: '/', redirect: '/auth/login' },
+      { path: '/', redirect: '/login' },
     ],
   },
 ]
