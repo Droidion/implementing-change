@@ -15,7 +15,7 @@ const otpChars = "1234567890"
 func EncryptPassword(plainPassword string) (string, error) {
 	hash, err := argon2id.CreateHash(plainPassword, argon2id.DefaultParams)
 	if err != nil {
-		return "", eris.Wrap(err, "could not encrypt password")
+		return "", eris.Wrap(err, "error encrypting password")
 	}
 	return string(hash), nil
 }
@@ -25,7 +25,7 @@ func EncryptPassword(plainPassword string) (string, error) {
 func CompareHashAndPassword(hash string, plain string) error {
 	_, err := argon2id.ComparePasswordAndHash(plain, hash)
 	if err != nil {
-		return eris.Wrap(err, "passwords do not match")
+		return eris.Wrap(err, "error comparing password and hash with argon2id")
 	}
 	return nil
 }
@@ -35,7 +35,7 @@ func GeneratePin(length int) (string, error) {
 	buffer := make([]byte, length)
 	_, err := rand.Read(buffer)
 	if err != nil {
-		return "", err
+		return "", eris.Wrap(err, "error generating pin code")
 	}
 
 	otpCharsLength := len(otpChars)

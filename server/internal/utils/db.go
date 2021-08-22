@@ -1,10 +1,9 @@
-package db
+package utils
 
 import (
 	"context"
-	"fmt"
 	"github.com/jackc/pgx/v4/pgxpool"
-	"github.com/rotisserie/eris"
+	"github.com/rs/zerolog/log"
 	"os"
 )
 
@@ -20,24 +19,8 @@ func PostgresConnect() {
 	var err error
 	PgConn, err = pgxpool.Connect(Ctx, os.Getenv("POSTGRES_URL"))
 	if err != nil {
-		fmt.Println(eris.ToString(err, true))
+		log.Fatal().Err(err).Msg("Could not establish DB Connection")
 		os.Exit(1)
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

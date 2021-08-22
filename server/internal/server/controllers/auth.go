@@ -3,6 +3,7 @@ package controllers
 import (
 	"github.com/droidion/implementing-change/internal/models"
 	"github.com/gofiber/fiber/v2"
+	"github.com/rs/zerolog/log"
 )
 
 // Контроллеры для аутентификации и получения токена
@@ -23,15 +24,17 @@ func AuthPlayerController(c *fiber.Ctx) error {
 	// Извлекаем параметры тела запроса
 	payload := new(AuthPlayerPayload)
 	if err := c.BodyParser(payload); err != nil {
-		return response401(c, err)
+		log.Error().Err(err).Msg("HTTP Bad Request. Incorrect request body")
+		return c.Status(fiber.StatusBadRequest).SendString("Incorrect request body")
 	}
 	// Валидируем пользователя по пин-коду
-	user, err := models.AuthenticatePlayer(payload.Pin)
+	player, err := models.AuthenticatePlayer(payload.Pin)
 	if err != nil {
-		return response401(c, err)
+		log.Error().Err(err).Msg("HTTP Unauthorized. Player not recognized")
+		return c.Status(fiber.StatusUnauthorized).SendString("Player not recognized")
 	}
 	// Отправляем
-	return c.JSON(&user)
+	return c.JSON(&player)
 }
 
 // AuthAdminController контроллер для получения JWT токена админом
@@ -39,12 +42,14 @@ func AuthAdminController(c *fiber.Ctx) error {
 	// Извлекаем параметры тела запроса
 	payload := new(AuthAdminPayload)
 	if err := c.BodyParser(payload); err != nil {
-		return response401(c, err)
+		log.Error().Err(err).Msg("HTTP Bad Request. Incorrect request body")
+		return c.Status(fiber.StatusBadRequest).SendString("Incorrect request body")
 	}
-
+	// Валидируем админа
 	user, err := models.AuthenticateAdmin(payload.Login, payload.Password)
 	if err != nil {
-		return response401(c, err)
+		log.Error().Err(err).Msg("HTTP Unauthorized. Admin not recognized")
+		return c.Status(fiber.StatusUnauthorized).SendString("Admin not recognized")
 	}
 	return c.JSON(&user)
 }

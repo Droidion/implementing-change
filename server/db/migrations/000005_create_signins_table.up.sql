@@ -2,7 +2,7 @@ create table if not exists signins
 (
     id serial,
     timestamp timestamp,
-    user_id integer
+    player_id integer
 );
 
 alter table signins
@@ -11,5 +11,5 @@ alter table signins
 
 alter table signins
     add constraint players_fk
-        foreign key (user_id)
+        foreign key (player_id)
             references players(id);

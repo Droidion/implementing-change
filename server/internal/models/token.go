@@ -3,6 +3,7 @@ package models
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt"
+	"github.com/rotisserie/eris"
 	"os"
 	"strconv"
 	"strings"
@@ -31,7 +32,7 @@ func GenerateNewAccessToken(userId int, team int, role string) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	t, err := token.SignedString([]byte(secret))
 	if err != nil {
-		return "", err
+		return "", eris.Wrap(err, "error generating new access token")
 	}
 	return t, nil
 }
@@ -51,7 +52,7 @@ func ExtractTokenMetadata(c *fiber.Ctx) (*TokenClaims, error) {
 			UserId:    int(claims["userId"].(float64)),
 		}, nil
 	}
-	return nil, err
+	return nil, eris.Wrap(err, "error extracting metadata from token")
 }
 
 // verifyToken достает токен из http-запроса и проверяет его валидность.
@@ -61,7 +62,7 @@ func verifyToken(c *fiber.Ctx) (*jwt.Token, error) {
 	if err != nil {
 		return nil, err
 	}
-	return token, nil
+	return token, eris.Wrap(err, "error verifying token")
 }
 
 // extractToken достает токен из заголовка http-запроса.
