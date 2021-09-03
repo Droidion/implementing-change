@@ -12,7 +12,7 @@ import (
 // Result результат игры команды
 type Result struct {
 	Progress
-	Team int `json:"team"`
+	Team  int `json:"team"`
 	Tries int `json:"tries"`
 }
 

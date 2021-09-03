@@ -40,7 +40,7 @@ func GeneratePin(length int) (string, error) {
 
 	otpCharsLength := len(otpChars)
 	for i := 0; i < length; i++ {
-		buffer[i] = otpChars[int(buffer[i]) % otpCharsLength]
+		buffer[i] = otpChars[int(buffer[i])%otpCharsLength]
 	}
 
 	return string(buffer), nil

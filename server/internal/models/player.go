@@ -10,23 +10,22 @@ import (
 
 // PlayerBrief Краткая информация об игроке, доступная самому игроку
 type PlayerBrief struct {
-	Team int `db:"team" json:"team"`
+	Team     int `db:"team" json:"team"`
 	PlayerId int `db:"player_id" json:"playerId"`
 }
-
 
 // PlayerFull Полная информация об игроке, доступная админу
 type PlayerFull struct {
 	PlayerBrief
-	GameId int `db:"game_id" json:"gameId"`
-	Pin string `db:"pin" json:"pin"`
+	GameId int    `db:"game_id" json:"gameId"`
+	Pin    string `db:"pin" json:"pin"`
 }
 
 // PlayerGenerated Новый сгенерированный игрок. Не имеет player id, потому что еще не был положен в базу
 type PlayerGenerated struct {
-	Team int `db:"team" json:"team"`
-	GameId int `db:"game_id" json:"gameId"`
-	Pin string `db:"pin" json:"pin"`
+	Team   int    `db:"team" json:"team"`
+	GameId int    `db:"game_id" json:"gameId"`
+	Pin    string `db:"pin" json:"pin"`
 }
 
 // PlayerAuthenticated данные авторизованного игрока
@@ -46,8 +45,11 @@ func AuthenticatePlayer(pin string) (*PlayerAuthenticated, error) {
 		return nil, eris.Wrap(err, "error generating new access token")
 	}
 	authUser := PlayerAuthenticated{Team: player.Team, Token: token}
-	LogSignIn(player)
-	return &authUser, eris.Wrap(err, "error authenticating user")
+	err = LogSignIn(player)
+	if err != nil {
+		return nil, eris.Wrap(err, "error logging user login")
+	}
+	return &authUser, nil
 }
 
 // GeneratePlayers генерирует указанное количество команд игроков и их пин-кодов с привязкой к указанной игре
@@ -59,9 +61,9 @@ func GeneratePlayers(teamCount int, gameId int) []PlayerGenerated {
 			pin = ""
 		}
 		teams[i] = PlayerGenerated{
-			Team: i + 1,
+			Team:   i + 1,
 			GameId: gameId,
-			Pin: pin,
+			Pin:    pin,
 		}
 	}
 	return teams

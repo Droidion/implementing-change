@@ -2,7 +2,7 @@ package models
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/golang-jwt/jwt"
+	"github.com/golang-jwt/jwt/v4"
 	"github.com/rotisserie/eris"
 	"os"
 	"strconv"
@@ -16,7 +16,7 @@ import (
 type TokenClaims struct {
 	Expires int64
 	Team    int
-	UserId    int
+	UserId  int
 	Role    string
 }
 
@@ -49,7 +49,7 @@ func ExtractTokenMetadata(c *fiber.Ctx) (*TokenClaims, error) {
 			Expires: int64(claims["exp"].(float64)),
 			Team:    int(claims["team"].(float64)),
 			Role:    claims["role"].(string),
-			UserId:    int(claims["userId"].(float64)),
+			UserId:  int(claims["userId"].(float64)),
 		}, nil
 	}
 	return nil, eris.Wrap(err, "error extracting metadata from token")

@@ -1,0 +1,1 @@
+INSERT INTO admins (name, login, password) VALUES ('Admin', 'admin', '$argon2id$v=19$m=16,t=2,p=1$dGltZ3JvdXA$DhAFQy3OkI7rNBLgF3AMuQ');
