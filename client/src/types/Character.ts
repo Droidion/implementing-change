@@ -1,3 +1,5 @@
+import { EventId } from './Event'
+
 /**
  * Описание и характеристики персонажа
  */
@@ -38,3 +40,18 @@ export type CharId =
   | 'itSupportChief'
   | 'implementationChief'
   | 'analysisChief'
+
+export interface CharScoreChangeEvent {
+  eventId: EventId
+  day: number
+  changeValue: number
+}
+
+export interface CharDynamics {
+  id: CharId
+  /** Начальная поддержка в текущем периоде */
+  initialSupport: number
+  /** Текущая поддержка */
+  currentSupport: number
+  changeHistory: CharScoreChangeEvent[]
+}

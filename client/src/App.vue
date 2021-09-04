@@ -2,12 +2,11 @@
   <router-view></router-view>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
+import { useCharsStore } from './stores/charsStore'
 
-export default defineComponent({
-  name: 'App',
-})
+const charsStore = useCharsStore()
+charsStore.initStateFromScenario()
 </script>
 
 <style lang="scss">

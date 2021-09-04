@@ -1,7 +1,7 @@
 import type { Character } from '../types/Character'
 
 /**
- * Список персонажей игры с их начальными параметрами.ц
+ * Список персонажей игры с их начальными параметрами.
  */
 export const characters: Character[] = [
   {
