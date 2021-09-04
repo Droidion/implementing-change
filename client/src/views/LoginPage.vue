@@ -7,11 +7,13 @@
 </template>
 
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
 import SigninInput from '../components/SigninInput.vue'
 
+const router = useRouter()
+
 function passwordChanged(password: string) {
-  console.log(password)
-  console.log(location.protocol + '//' + location.hostname)
+  router.push('/planner')
 }
 </script>
 

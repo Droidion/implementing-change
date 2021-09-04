@@ -4,38 +4,38 @@
     <article class="content">
       <router-view></router-view>
     </article>
-    <aside class="side-goals">Sidebar Goals</aside>
-    <aside class="side-project">Sidebar Project</aside>
+    <indicator-goals class="side-goals"></indicator-goals>
+    <indicator-project class="side-project"></indicator-project>
     <aside class="side-controls">Control buttons</aside>
   </div>
 </template>
 
 <script lang="ts" setup>
 import HeaderMenu from '../HeaderMenu.vue'
+import IndicatorGoals from '../IndicatorGoals.vue'
+import IndicatorProject from '../IndicatorProject.vue'
 </script>
 
 <style scoped lang="scss">
+@use '../../styles/colors';
+
 .header {
   grid-area: header;
 }
 
 .content {
-  background: white;
   grid-area: content;
 }
 
 .side-goals {
-  background: white;
   grid-area: side-goals;
 }
 
 .side-project {
-  background: white;
   grid-area: side-project;
 }
 
 .side-controls {
-  color: white;
   grid-area: side-controls;
 }
 
@@ -43,6 +43,7 @@ import HeaderMenu from '../HeaderMenu.vue'
 .content,
 .side-goals,
 .side-project {
+  background: colors.$white;
   border-radius: 6px;
   padding: 1rem;
 }
