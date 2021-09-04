@@ -1,10 +1,12 @@
 html {
-    box-sizing: border-box;
-    font-size: 16px;
+  box-sizing: border-box;
+  font-size: 16px;
 }
 
-*, *:before, *:after {
-    box-sizing: inherit;
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
 }
 
 html,
@@ -33,25 +35,27 @@ h6,
 button,
 input,
 select {
-    margin: 0;
-    padding: 0;
-    font-weight: normal;
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
 }
 
-ol, ul {
-    list-style: none;
+ol,
+ul {
+  list-style: none;
 }
 
 img {
-    max-width: 100%;
-    height: auto;
+  height: auto;
+  max-width: 100%;
 }
 
 table {
-    border-collapse: collapse;
-    border-spacing: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
-td, th {
-    padding: 0;
+td,
+th {
+  padding: 0;
 }

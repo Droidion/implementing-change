@@ -1,5 +1,6 @@
 <template>
   <div class="wrapper">
+    <img class="badge" src="../../assets/images/badge.webp" />
     <router-view></router-view>
   </div>
 </template>
@@ -12,7 +13,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @use '../../styles/colors';
 
 .wrapper,
@@ -41,13 +42,11 @@ export default defineComponent({
   justify-content: center;
 }
 
-.title {
-  font-size: 3rem;
-  font-weight: 500;
-}
-
-.subtitle {
-  font-size: 1.5rem;
-  margin-top: 1rem;
+.badge {
+  height: 235px;
+  left: 2rem;
+  position: fixed;
+  top: 0;
+  width: 269px;
 }
 </style>

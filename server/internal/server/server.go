@@ -13,5 +13,5 @@ func StartServer() {
 	app := fiber.New()
 	app.Use(recover.New())
 	addRoutes(app)
-	log.Fatal(app.Listen(":3000"))
+	log.Fatal(app.Listen(":7777"))
 }
