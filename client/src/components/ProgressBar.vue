@@ -58,30 +58,29 @@ const colorClass = computed(() => {
   min-width: 226px;
 }
 
-.background {
+.background,
+.progress {
   align-items: center;
   border-radius: 0 12px 12px 0;
   display: flex;
-  height: 24px;
   justify-content: flex-end;
   padding-right: 0.6rem;
+}
+
+.background {
+  height: 24px;
   position: relative;
   width: 100%;
 }
 
-.background-value {
+.background-value,
+.progress {
   color: colors.$white;
 }
 
 .progress {
-  align-items: center;
-  border-radius: 0 12px 12px 0;
   bottom: 0;
-  color: colors.$white;
-  display: flex;
-  justify-content: flex-end;
   left: 0;
-  padding-right: 0.6rem;
   position: absolute;
   top: 0;
 }

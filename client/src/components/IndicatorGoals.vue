@@ -4,7 +4,9 @@
     <div class="informer-block">
       <div class="informer-block-title">Активная поддержка</div>
       <progress-bar class="progress-bar" :total="needSupporters.active" :current="currentActiveSupport"></progress-bar>
-      <div class="informer-block-caption">Изменение с начала периода {{ activeSupportChange }}</div>
+      <div class="informer-block-caption">
+        Изменение с начала периода <colored-value :value="activeSupportChange"></colored-value>
+      </div>
     </div>
     <div class="informer-block">
       <div class="informer-block-title">Умеренная поддержка</div>
@@ -13,12 +15,14 @@
         :total="needSupporters.moderate"
         :current="currentModerateSupport"
       ></progress-bar>
-      <div class="informer-block-caption">Изменение с начала периода {{ moderateSupportChange }}</div>
+      <div class="informer-block-caption">
+        Изменение с начала периода <colored-value :value="moderateSupportChange"></colored-value>
+      </div>
     </div>
     <div class="informer-block">
       <div class="informer-block-title">Целевые события периода</div>
       <progress-bar class="progress-bar" :total="needEvents" :current="0" :color-scheme="'orange'"></progress-bar>
-      <div class="informer-block-caption">Изменение с начала периода {{ 0 }}</div>
+      <div class="informer-block-caption">Изменение с начала периода <colored-value :value="0"></colored-value></div>
     </div>
   </indicator>
 </template>
@@ -31,6 +35,7 @@ import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import { periods } from '../scenario/periods'
 import ProgressBar from './ProgressBar.vue'
+import ColoredValue from './ColoredValue.vue'
 
 const charsStore = useCharsStore()
 const progressStore = useProgressStore()
