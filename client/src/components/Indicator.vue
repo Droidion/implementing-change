@@ -33,4 +33,8 @@
     margin: 0 0.5rem;
   }
 }
+
+.progress-bar {
+  margin: 0.2rem 0;
+}
 </style>
