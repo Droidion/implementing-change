@@ -36,6 +36,10 @@ export class RequestMaker {
     }
   }
 
+  public isToken(): boolean {
+    return !!this.#token
+  }
+
   private async post<Input, Output>(endpoint: string, body: Input, addToken = true): Promise<Output> {
     const requestParams: RequestInit = {
       method: 'POST',
