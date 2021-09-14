@@ -1,4 +1,4 @@
-import { AdminInputDto, AdminOutputDto } from '../types/AuthDtos'
+import { AdminInputDto, AdminOutputDto, UserInputDto, UserOutputDto } from '../types/AuthDtos'
 
 export class RequestMaker {
   readonly #apiBaseUri: string
@@ -27,17 +27,29 @@ export class RequestMaker {
     }
   }
 
-  private async post<Input, Output>(endpoint: string, body: Input, addHeaders = true): Promise<Output> {
+  public async authUser(pin: string): Promise<Omit<UserOutputDto, 'token'>> {
+    const result = await this.post<UserInputDto, UserOutputDto>('auth/player', { pin }, false)
+    this.#token = result.token
+
+    return {
+      team: result.team,
+    }
+  }
+
+  private async post<Input, Output>(endpoint: string, body: Input, addToken = true): Promise<Output> {
     const requestParams: RequestInit = {
       method: 'POST',
       body: JSON.stringify(body),
     }
 
-    if (addHeaders) {
-      requestParams.headers = this.prepareHeaders()
+    const headers = this.prepareHeaders()
+
+    if (addToken) {
+      headers.append('Authorization', `Bearer ${this.#token}`)
     }
 
-    const response = await fetch(`${this.#apiBaseUri}/${endpoint}`, requestParams)
+    requestParams.headers = headers
+    const response = await fetch(this.#apiBaseUri + endpoint, requestParams)
     await RequestMaker.checkResponseForErrors(response)
     return await RequestMaker.parseResponse(response)
   }

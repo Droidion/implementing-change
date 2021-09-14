@@ -8,3 +8,12 @@ export interface AdminOutputDto {
   name: string
   token: string
 }
+
+export interface UserInputDto {
+  pin: string
+}
+
+export interface UserOutputDto {
+  team: number
+  token: string
+}

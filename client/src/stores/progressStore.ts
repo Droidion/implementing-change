@@ -6,6 +6,7 @@ export const useProgressStore = defineStore('progress', {
       currentPeriod: 1,
       currentDay: 1,
       maxDays: 400,
+      teamNumber: 0,
     }
   },
 })
