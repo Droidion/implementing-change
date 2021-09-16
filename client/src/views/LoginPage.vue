@@ -5,11 +5,13 @@
     <signin-input @focus="clearError" @updated-value="pinChanged"></signin-input>
     <div v-if="errorMsg" class="error">{{ errorMsg }}</div>
   </div>
+  <login-mode-selector></login-mode-selector>
 </template>
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import SigninInput from '../components/SigninInput.vue'
+import LoginModeSelector from '../components/LoginModeSelector.vue'
 import { inject, ref } from 'vue'
 import { RequestMakerKey } from '../utils/injections'
 import { useProgressStore } from '../stores/progressStore'
@@ -28,7 +30,7 @@ async function pinChanged(pin: string) {
     })
     await router.push('/planner')
   } catch (error: unknown) {
-    errorMsg.value = error.message
+    errorMsg.value = error?.message
   }
 }
 
