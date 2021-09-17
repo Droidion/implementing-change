@@ -1,7 +1,9 @@
 import AuthLayout from './components/layouts/AuthLayout.vue'
 import MainLayout from './components/layouts/MainLayout.vue'
+import AdminLayout from './components/layouts/AdminLayout.vue'
 
-import LoginPage from './views/LoginPage.vue'
+import UserLoginPage from './views/UserLoginPage.vue'
+import AdminLoginPage from './views/AdminLoginPage.vue'
 import PlannerPage from './views/PlannerPage.vue'
 import NewEventPage from './views/NewEventPage.vue'
 import DynamicsPage from './views/DynamicsPage.vue'
@@ -10,6 +12,7 @@ import HelpCompanyPage from './views/HelpCompanyPage.vue'
 import HelpStructurePage from './views/HelpStructurePage.vue'
 import HistoryPage from './views/HistoryPage.vue'
 import ModelingPage from './views/ModelingPage.vue'
+import ManageGamePage from './views/admin/ManageGamePage.vue'
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import { useProgressStore } from './stores/progressStore'
 
@@ -19,8 +22,23 @@ const routes: RouteRecordRaw[] = [
     component: AuthLayout,
     children: [
       {
-        path: '',
-        component: LoginPage,
+        path: 'user',
+        component: UserLoginPage,
+      },
+      {
+        path: 'admin',
+        component: AdminLoginPage,
+      },
+    ],
+  },
+  {
+    path: '/admin',
+    component: AdminLayout,
+    children: [
+      {
+        path: 'manage',
+        component: ManageGamePage,
+        meta: { requiresAuth: false },
       },
     ],
   },
@@ -68,7 +86,7 @@ const routes: RouteRecordRaw[] = [
         component: ModelingPage,
         meta: { requiresAuth: true },
       },
-      { path: '', redirect: '/login' },
+      { path: '', redirect: '/login/user' },
     ],
   },
 ]
@@ -78,10 +96,10 @@ export const router = createRouter({
   routes,
 })
 
-router.beforeEach((to, from) => {
+router.beforeEach((to) => {
   const progressStore = useProgressStore()
   if (to.meta.requiresAuth && !progressStore.teamNumber) {
-    return '/login'
+    return '/login/user'
   } else {
     return true
   }

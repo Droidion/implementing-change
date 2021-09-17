@@ -22,22 +22,6 @@ function emitValue() {
   position: relative;
 }
 
-.input {
-  background: transparent;
-  border: 2px solid colors.$white;
-  border-radius: 24px;
-  color: colors.$white;
-  font-size: 1rem;
-  height: 2.4rem;
-  outline: none;
-  padding: 0 1rem;
-  width: 14rem;
-
-  &::placeholder {
-    color: colors.$dusty-gray;
-  }
-}
-
 .button {
   background-color: colors.$white;
   border: 0;

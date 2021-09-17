@@ -22,12 +22,12 @@ func EncryptPassword(plainPassword string) (string, error) {
 
 // CompareHashAndPassword проверяет, равен ли зашифрованный пароль незашифрованному.
 // Зашифрованный пароль приходит, например, из базы, а незашифрованный из браузера пользователя.
-func CompareHashAndPassword(hash string, plain string) error {
-	_, err := argon2id.ComparePasswordAndHash(plain, hash)
+func CompareHashAndPassword(hash string, plain string) (bool, error) {
+	match, err := argon2id.ComparePasswordAndHash(plain, hash)
 	if err != nil {
-		return eris.Wrap(err, "error comparing password and hash with argon2id")
+		return false, eris.Wrap(err, "error comparing password and hash with argon2id")
 	}
-	return nil
+	return match, nil
 }
 
 // GeneratePin создает псевдослучайный пин-код

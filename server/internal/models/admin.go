@@ -29,9 +29,13 @@ func AuthenticateAdmin(login string, password string) (*AuthenticatedAdmin, erro
 		return nil, eris.Wrap(err, "error getting admin by login")
 	}
 
-	err = CompareHashAndPassword(admin.Password, password)
+	match, err := CompareHashAndPassword(admin.Password, password)
 	if err != nil {
 		return nil, eris.Wrap(err, "error while comparing hash and password")
+	}
+
+	if match == false {
+		return nil, eris.New("passwords do not match")
 	}
 
 	token, err := GenerateNewAccessToken(0, 0, "admin")

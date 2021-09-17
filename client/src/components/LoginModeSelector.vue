@@ -1,7 +1,7 @@
 <template>
   <div class="modes">
-    <router-link to="/planner">Игрок</router-link>
-    <router-link to="/planner">Админ</router-link>
+    <router-link to="/login/user">Игрок</router-link>
+    <router-link to="/login/admin">Админ</router-link>
   </div>
 </template>
 

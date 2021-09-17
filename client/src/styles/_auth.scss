@@ -1,0 +1,54 @@
+@use 'colors';
+
+.wrapper {
+  position: relative;
+}
+
+.button {
+  background-color: colors.$white;
+  border: 0;
+  border-radius: 24px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
+  height: 1.9rem;
+  padding: 0 1rem;
+  position: absolute;
+  right: 4px;
+  top: 4px;
+
+  &:hover {
+    background-color: colors.$silver;
+    cursor: pointer;
+  }
+}
+
+.inputs {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+}
+
+.login {
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: 500;
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  margin-top: 1rem;
+}
+
+.error {
+  background-color: colors.$monza;
+  border-radius: 24px;
+  height: 2.4rem;
+  line-height: 2.4rem;
+  margin-top: 1rem;
+  padding: 0 1rem;
+  text-align: center;
+}

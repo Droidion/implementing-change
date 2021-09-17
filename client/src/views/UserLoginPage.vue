@@ -2,7 +2,10 @@
   <div class="title">Управление изменениями</div>
   <div class="subtitle">Деловая игра от Группы ТИМ</div>
   <div class="inputs">
-    <signin-input @focus="clearError" @updated-value="pinChanged"></signin-input>
+    <form class="wrapper" @submit.prevent="pinChanged">
+      <input v-model="password" class="input" type="password" placeholder="Пароль игрока" @input="clearError" />
+      <button class="button" type="submit">Войти</button>
+    </form>
     <div v-if="errorMsg" class="error">{{ errorMsg }}</div>
   </div>
   <login-mode-selector></login-mode-selector>
@@ -10,7 +13,6 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import SigninInput from '../components/SigninInput.vue'
 import LoginModeSelector from '../components/LoginModeSelector.vue'
 import { inject, ref } from 'vue'
 import { RequestMakerKey } from '../utils/injections'
@@ -20,11 +22,12 @@ const router = useRouter()
 const $requestMaker = inject(RequestMakerKey, ref('$'))
 const progressStore = useProgressStore()
 
+const password = ref('')
 const errorMsg = ref('')
 
-async function pinChanged(pin: string) {
+async function pinChanged() {
   try {
-    const result = await $requestMaker.authUser(pin)
+    const result = await $requestMaker.authUser(password.value)
     progressStore.$patch({
       teamNumber: result.team,
     })
@@ -40,32 +43,5 @@ function clearError() {
 </script>
 
 <style scoped lang="scss">
-@use '../styles/colors';
-
-.inputs {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  margin-top: 2rem;
-}
-
-.title {
-  font-size: 3rem;
-  font-weight: 500;
-}
-
-.subtitle {
-  font-size: 1.5rem;
-  margin-top: 1rem;
-}
-
-.error {
-  background-color: colors.$monza;
-  border-radius: 24px;
-  height: 2.4rem;
-  line-height: 2.4rem;
-  margin-top: 1rem;
-  padding: 0 1rem;
-  text-align: center;
-}
+@use '../styles/auth';
 </style>

@@ -13,6 +13,7 @@ charsStore.initStateFromScenario()
 @use 'styles/reset';
 @use 'styles/fonts';
 @use 'styles/colors';
+@use 'styles/inputs';
 
 body {
   background-color: colors.$black-pearl;
