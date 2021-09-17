@@ -1,0 +1,10 @@
+{
+  "token_hmac_secret_key": "893a1589-c443-4459-a311-42327cd617d6",
+  "admin_password": "de6ddbb9-49db-44ca-a37f-37c5de5d6822",
+  "admin_secret": "f34c3310-75be-4fc2-8929-67e9d95448ad",
+  "api_key": "7fba1959-7bcd-4e79-99a4-ea22bbde89d3",
+  "allowed_origins": [],
+  "admin": true,
+  "admin_password": "tim",
+  "admin_secret": "timgroup"
+}

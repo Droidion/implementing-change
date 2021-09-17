@@ -34,6 +34,10 @@ API для работы с интерфейсом игры и админкой.
 
 `$ go run github.com/droidion/implementing-change/cmd`.
 
+Запустите сервер сообщений:
+
+`$ docker run --ulimit nofile=65536:65536 -v ~/Projects/tim/implementing-change:/centrifugo -p 8000:8000 centrifugo/centrifugo centrifugo -c centrifugo-config.json --admin`
+
 ### Докер
 
 TODO.

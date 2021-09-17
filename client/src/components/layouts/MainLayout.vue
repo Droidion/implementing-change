@@ -1,6 +1,14 @@
 <template>
   <div class="wrapper">
-    <header-menu class="header">dd</header-menu>
+    <header-menu class="header">
+      <ul>
+        <li><router-link to="/planner">Планировщик</router-link></li>
+        <li><router-link to="/modeling">Моделирование</router-link></li>
+        <li><router-link to="/dynamics">Динамика</router-link></li>
+        <li><router-link to="/history">История</router-link></li>
+        <li><router-link to="/help/characters">Помощь</router-link></li>
+      </ul>
+    </header-menu>
     <article class="content">
       <router-view></router-view>
     </article>
