@@ -7,6 +7,7 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "centrifuge": "^2.8.2",
     "ky": "^0.28.5",
     "pinia": "^2.0.0-rc.7",
     "vue": "^3.2.8",

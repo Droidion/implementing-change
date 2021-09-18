@@ -18,12 +18,13 @@
 import { useRouter } from 'vue-router'
 import LoginModeSelector from '../../components/LoginModeSelector.vue'
 import { inject, ref } from 'vue'
-import { RequestMakerKey } from '../../utils/injections'
+import { CentrifugoClientKey, RequestMakerKey } from '../../utils/injections'
 import { useProgressStore } from '../../stores/progressStore'
 
 const router = useRouter()
 const progressStore = useProgressStore()
 const $requestMaker = inject(RequestMakerKey, ref('$'))
+const $centrifugo = inject(CentrifugoClientKey, ref('$'))
 
 const login = ref('')
 const password = ref('')
@@ -31,10 +32,11 @@ const errorMsg = ref('')
 
 async function pinChanged() {
   try {
-    await $requestMaker.authAdmin(login.value, password.value)
+    const centrifugoToken = (await $requestMaker.authAdmin(login.value, password.value)).centrifugoToken
     progressStore.$patch({
       authenticated: true,
     })
+    $centrifugo.connect(centrifugoToken)
     await router.push('/admin/manage')
   } catch (error: unknown) {
     errorMsg.value = error

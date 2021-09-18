@@ -11,7 +11,7 @@ export class RequestMaker {
     console.log(apiBaseUri)
   }
 
-  public async authAdmin(login: string, password: string): Promise<Omit<AdminOutputDto, 'token'>> {
+  public async authAdmin(login: string, password: string): Promise<Omit<AdminOutputDto, 'accessToken'>> {
     const result = await this.post<AdminInputDto, AdminOutputDto>(
       'auth/admin',
       {
@@ -21,11 +21,12 @@ export class RequestMaker {
       false
     )
 
-    this.#token = result.token
+    this.#token = result.accessToken
 
     return {
       login: result.login,
       name: result.name,
+      centrifugoToken: result.centrifugoToken,
     }
   }
 

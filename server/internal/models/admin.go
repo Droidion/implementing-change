@@ -12,7 +12,8 @@ import (
 type AuthenticatedAdmin struct {
 	Login string `json:"login"`
 	Name  string `json:"name"`
-	Token string `json:"token"`
+	AccessToken string `json:"accessToken"`
+	CentrifugoToken string `json:"centrifugoToken"`
 }
 
 // Admin данные об админе из базы, для внутреннего пользования
@@ -38,12 +39,17 @@ func AuthenticateAdmin(login string, password string) (*AuthenticatedAdmin, erro
 		return nil, eris.New("passwords do not match")
 	}
 
-	token, err := GenerateNewAccessToken(0, 0, "admin")
+	accessToken, err := GenerateNewAccessToken(0, 0, "admin")
 	if err != nil {
 		return nil, eris.Wrap(err, "error generating new token")
 	}
 
-	authUser := AuthenticatedAdmin{Login: admin.Login, Name: admin.Name, Token: token}
+	centrifugoToken, err := GenerateNewCentrifugoToken("admin")
+	if err != nil {
+		return nil, eris.Wrap(err, "error generating new token")
+	}
+
+	authUser := AuthenticatedAdmin{Login: admin.Login, Name: admin.Name, AccessToken: accessToken, CentrifugoToken: centrifugoToken}
 	return &authUser, nil
 }
 

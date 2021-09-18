@@ -6,7 +6,8 @@ export interface AdminInputDto {
 export interface AdminOutputDto {
   login: string
   name: string
-  token: string
+  accessToken: string
+  centrifugoToken: string
 }
 
 export interface UserInputDto {
