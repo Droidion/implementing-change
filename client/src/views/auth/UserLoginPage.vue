@@ -34,7 +34,7 @@ async function pinChanged() {
     })
     await router.push('/planner')
   } catch (error: unknown) {
-    errorMsg.value = (error as Error)?.message
+    errorMsg.value = error
   }
 }
 

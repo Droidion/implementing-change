@@ -1,4 +1,6 @@
 import { AdminInputDto, AdminOutputDto, UserInputDto, UserOutputDto } from '../types/AuthDtos'
+import ky, { HTTPError } from 'ky'
+import { Options } from 'ky/distribution/types/options'
 
 export class RequestMaker {
   readonly #apiBaseUri: string
@@ -36,52 +38,16 @@ export class RequestMaker {
     }
   }
 
-  public isToken(): boolean {
-    return !!this.#token
-  }
-
   private async post<Input, Output>(endpoint: string, body: Input, addToken = true): Promise<Output> {
-    const requestParams: RequestInit = {
-      method: 'POST',
-      body: JSON.stringify(body),
-    }
-
-    const headers = this.prepareHeaders()
-
+    const options: Options = { json: body }
     if (addToken) {
-      headers.append('Authorization', `Bearer ${this.#token}`)
+      options.headers = { Authorization: `Bearer ${this.#token}` }
     }
 
-    requestParams.headers = headers
-    const response = await fetch(this.#apiBaseUri + endpoint, requestParams)
-    await RequestMaker.checkResponseForErrors(response)
-    return await RequestMaker.parseResponse(response)
-  }
-
-  private prepareHeaders(): Headers {
-    const headers = new Headers()
-    headers.append('Authorization', `Bearer ${this.#token}`)
-    headers.append('Content-Type', 'application/json')
-    return headers
-  }
-
-  private static async checkResponseForErrors(response: Response): Promise<Response> {
-    if (response.ok) {
-      return response
-    } else {
-      throw {
-        status: response.status,
-        statusText: response.statusText,
-        message: await response.text(),
-      }
+    try {
+      return await ky.post(this.#apiBaseUri + endpoint, options).json<Output>()
+    } catch (error: unknown) {
+      throw await (error as HTTPError).response.text()
     }
-  }
-
-  private static async parseResponse<T>(response: Response): Promise<T> {
-    const responseTypeHeader = response.headers.get('content-type')
-    if (responseTypeHeader?.includes('json')) {
-      return await response.json()
-    }
-    return (await response.text()) as unknown as T
   }
 }

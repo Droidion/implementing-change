@@ -10,6 +10,7 @@ specifiers:
   eslint: ^7.32.0
   eslint-plugin-prettier: ^4.0.0
   eslint-plugin-vue: ^7.17.0
+  ky: ^0.28.5
   pinia: ^2.0.0-rc.7
   prettier: ^2.4.0
   sass: ^1.40.1
@@ -24,6 +25,7 @@ specifiers:
   vue-tsc: ^0.3.0
 
 dependencies:
+  ky: 0.28.5
   pinia: 2.0.0-rc.7_typescript@4.4.3+vue@3.2.8
   vue: 3.2.8
   vue-router: 4.0.11_vue@3.2.8
@@ -1951,6 +1953,11 @@ packages:
   /known-css-properties/0.21.0:
     resolution: {integrity: sha512-sZLUnTqimCkvkgRS+kbPlYW5o8q5w1cu+uIisKpEWkj31I8mx8kNG162DwRav8Zirkva6N5uoFsm9kzK4mUXjw==}
     dev: true
+
+  /ky/0.28.5:
+    resolution: {integrity: sha512-O5gg9kF4MeyfSw+YkgPAafOPwEUU6xcdGEJKUJmKpIPbLzk3oxUtY4OdBNekG7mawofzkyZ/ZHuR9ev5uZZdAA==}
+    engines: {node: '>=12'}
+    dev: false
 
   /levn/0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}

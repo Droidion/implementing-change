@@ -37,7 +37,7 @@ async function pinChanged() {
     })
     await router.push('/admin/manage')
   } catch (error: unknown) {
-    errorMsg.value = (error as Error)?.message
+    errorMsg.value = error
   }
 }
 
