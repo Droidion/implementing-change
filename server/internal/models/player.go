@@ -34,6 +34,17 @@ type PlayerAuthenticated struct {
 	Token string `json:"token"`
 }
 
+// LogSignIn сохраняет в базу время захода пользователя в игру.
+// Под заходом в игру понимается авторизация в системе и получение токена игрока.
+func (player PlayerBrief) LogSignIn() error {
+	const sql = `insert into signins (player_id, timestamp) values ($1, now())`
+	_, err := utils.PgConn.Exec(utils.Ctx, sql, player.PlayerId)
+	if err != nil {
+		return eris.Wrap(err, "error inserting player sign in event to db")
+	}
+	return nil
+}
+
 // AuthenticatePlayer пытается авторизовать игрока и сгенерировать для него JWT токен
 func AuthenticatePlayer(pin string) (*PlayerAuthenticated, error) {
 	player, err := GetPlayerByPin(pin)
@@ -45,7 +56,7 @@ func AuthenticatePlayer(pin string) (*PlayerAuthenticated, error) {
 		return nil, eris.Wrap(err, "error generating new access token")
 	}
 	authUser := PlayerAuthenticated{Team: player.Team, Token: token}
-	err = LogSignIn(player)
+	err = player.LogSignIn()
 	if err != nil {
 		return nil, eris.Wrap(err, "error logging user login")
 	}

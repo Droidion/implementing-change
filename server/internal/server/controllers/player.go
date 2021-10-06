@@ -28,7 +28,7 @@ func SubmitResultController(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).SendString("Incorrect request body")
 	}
 	// Заносим прогресс игры в базу
-	err = models.InsertResult(tokenMeta.UserId, payload)
+	err = payload.InsertResult(tokenMeta.UserId)
 	if err != nil {
 		log.Error().Err(err).Msg("HTTP Internal Serve rError. Could not save data to database")
 		return c.Status(fiber.StatusInternalServerError).SendString("Could not save data to database")
