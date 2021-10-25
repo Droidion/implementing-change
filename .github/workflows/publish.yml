@@ -33,9 +33,6 @@ jobs:
     needs: build_and_test
     name: Dockerize
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./backend/ChangeGameApi
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
@@ -49,7 +46,7 @@ jobs:
       - name: Build docker image and push to Docker Hub
         uses: docker/build-push-action@v2
         with:
-          context: .
+          context: ./backend/ChangeGameApi
           pull: true
           push: true
           cache-from: type=registry,ref=zunh/changegamebackend:latest
