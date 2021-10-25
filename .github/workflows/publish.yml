@@ -1,6 +1,7 @@
 name: Build → Test → Dockerize → Publish
 
 on:
+  workflow_dispatch:
   release:
     types:
       - published
