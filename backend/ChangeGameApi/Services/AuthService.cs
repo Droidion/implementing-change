@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 /// Business logic for authenticating users
 /// </summary>
 [AllowAnonymous]
-public class AuthService : IAuthService
+public class  AuthService : IAuthService
 {
     private readonly IPlayerRepository _playerRepository;
     private readonly IAdminRepository _adminRepository;

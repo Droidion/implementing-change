@@ -1,0 +1,67 @@
+name: Build → Test → Dockerize → Publish
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  # Builds .NET solution and runs unit tests
+  build_and_test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend/ChangeGameApi
+    name: Build → Test 
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.x'
+          include-prerelease: true
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build solution
+        run: dotnet build --no-restore
+      - name: Run unit tests
+        run: dotnet test --no-build --verbosity normal
+  
+  # Builds docker image and pushes to Docker Hub
+  push_to_docker:
+    needs: build_and_test
+    name: Dockerize
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend/ChangeGameApi
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Build docker image and push to Docker Hub
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: zunh/changegamebackend
+          tags: latest
+          tag_with_ref: true
+          add_git_labels: true
+          
+  # Pulls docker images from Docker Hub on production cloud instance and reruns the containers using SSH        
+  publish_to_prod:
+    needs: push_to_docker
+    name: Publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH to remote server, pull images and rerun containers
+        uses: appleboy/ssh-action@master
+        with:
+          username: ${{ secrets.SSH_USERNAME }}
+          host: ${{ secrets.SSH_HOST }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd ~/tim-apps-docker
+            docker-compose pull
+            docker-compose down
+            docker-compose up -d
