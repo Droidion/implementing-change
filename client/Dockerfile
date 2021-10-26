@@ -6,9 +6,9 @@ RUN pnpm i
 COPY . .
 RUN pnpm run build
 
-FROM nginx:latest as production-stage
-WORKDIR /usr/share/nginx/html
-RUN rm -rf ./*
+FROM node:17-alpine as production-stage
+RUN npm install -g http-server
+WORKDIR /public
 COPY --from=build-stage /app/dist .
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 8080
+CMD ["http-server", "-b", "-g"]
