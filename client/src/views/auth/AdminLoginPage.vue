@@ -34,6 +34,7 @@ async function pinChanged() {
   try {
     if ($requestMaker) {
       //const centrifugoToken = (await $requestMaker.authAdmin(login.value, password.value)).centrifugoToken
+      await $requestMaker.authAdmin(login.value, password.value)
       progressStore.$patch({
         authenticated: true,
       })
