@@ -6,7 +6,9 @@ RUN pnpm i
 COPY . .
 RUN pnpm run build
 
-FROM nginx:stable-alpine as production-stage
-COPY --from=build-stage /app/dist /usr/share/nginx/html
+FROM nginx:latest as production-stage
+WORKDIR /usr/share/nginx/html
+RUN rm -rf ./*
+COPY --from=build-stage /app/dist .
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
