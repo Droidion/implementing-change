@@ -23,8 +23,8 @@ import { useProgressStore } from '../../stores/progressStore'
 
 const router = useRouter()
 const progressStore = useProgressStore()
-const $requestMaker = inject(RequestMakerKey, ref('$'))
-const $centrifugo = inject(CentrifugoClientKey, ref('$'))
+const $requestMaker = inject(RequestMakerKey)
+const $centrifugo = inject(CentrifugoClientKey)
 
 const login = ref('')
 const password = ref('')
@@ -32,14 +32,16 @@ const errorMsg = ref('')
 
 async function pinChanged() {
   try {
-    const centrifugoToken = (await $requestMaker.authAdmin(login.value, password.value)).centrifugoToken
-    progressStore.$patch({
-      authenticated: true,
-    })
-    $centrifugo.connect(centrifugoToken)
-    await router.push('/admin/manage')
+    if ($requestMaker && $centrifugo) {
+      const centrifugoToken = (await $requestMaker.authAdmin(login.value, password.value)).centrifugoToken
+      progressStore.$patch({
+        authenticated: true,
+      })
+      $centrifugo.connect(centrifugoToken)
+      await router.push('/admin/manage')
+    }
   } catch (error: unknown) {
-    errorMsg.value = error
+    errorMsg.value = error as string
   }
 }
 

@@ -19,7 +19,7 @@ import { RequestMakerKey } from '../../utils/injections'
 import { useProgressStore } from '../../stores/progressStore'
 
 const router = useRouter()
-const $requestMaker = inject(RequestMakerKey, ref('$'))
+const $requestMaker = inject(RequestMakerKey)
 const progressStore = useProgressStore()
 
 const password = ref('')
@@ -27,14 +27,14 @@ const errorMsg = ref('')
 
 async function pinChanged() {
   try {
-    const result = await $requestMaker.authUser(password.value)
+    const result = await $requestMaker?.authUser(password.value)
     progressStore.$patch({
       authenticated: true,
-      teamNumber: result.team,
+      teamNumber: result?.team,
     })
     await router.push('/planner')
   } catch (error: unknown) {
-    errorMsg.value = error
+    errorMsg.value = error as string
   }
 }
 

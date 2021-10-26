@@ -8,7 +8,6 @@ export class RequestMaker {
 
   constructor(apiBaseUri: string) {
     this.#apiBaseUri = apiBaseUri
-    console.log(apiBaseUri)
   }
 
   public async authAdmin(login: string, password: string): Promise<Omit<AdminOutputDto, 'accessToken'>> {
