@@ -36,6 +36,14 @@ builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<IGameService, GameService>();
 builder.Services.AddTransient<IProgressService, ProgressService>();
 builder.Services.AddTransient<IPlayerService, PlayerService>();
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        b =>
+        {
+            b.WithOrigins().AllowAnyOrigin();
+        });
+});
 builder.Services.AddControllers();
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
@@ -65,6 +73,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors();
 app.UseSerilogRequestLogging();
 app.UseHttpsRedirection();
 app.UseAuthentication();
