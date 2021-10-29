@@ -1,5 +1,6 @@
 namespace ChangeGameApi.Services;
 
+using Types;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -10,17 +11,21 @@ using Microsoft.IdentityModel.Tokens;
 /// </summary>
 public class TokenService : ITokenService
 {
-    private readonly string _jwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET") ?? "";
-    private readonly string _centrifugoSecret = Environment.GetEnvironmentVariable("CENTRIFUGO_SECRET") ?? "";
+    private readonly EnvOptions _envOptions;
+
+    public TokenService(EnvOptions envOptions)
+    {
+        _envOptions = envOptions;
+    }
 
     public string GenerateAccessToken(int userId, int team, string role)
     {
-        return GenerateToken(CreateClaimsForAccessToken(userId, team, role), _jwtSecret);
+        return GenerateToken(CreateClaimsForAccessToken(userId, team, role), _envOptions.JwtSecret);
     }
 
     public string GenerateCentrifugoToken(string role)
     {
-        return GenerateToken(GetClaimsForCentrifugoToken(role), _centrifugoSecret);
+        return GenerateToken(GetClaimsForCentrifugoToken(role), _envOptions.CentrfugoSecret);
     }
 
     /// <summary>

@@ -1,17 +1,23 @@
+namespace ChangeGameApi.Repositories;
+
+using Types;
 using Dapper;
 using Npgsql;
 
-namespace ChangeGameApi.Repositories;
-
 public class SignInRepository : ISignInRepository
 {
-    private readonly string _connString = Environment.GetEnvironmentVariable(Constants.PgConnString) ?? "";
+    private readonly EnvOptions _envOptions;
+
+    public SignInRepository(EnvOptions envOptions)
+    {
+        _envOptions = envOptions;
+    }
     
     public async Task LogSignIn(int playerId)
     {
         const string sql =
             "INSERT INTO signins (player_id, timestamp) VALUES (@PlayerId, now())";
-        await using var connection = new NpgsqlConnection(_connString);
+        await using var connection = new NpgsqlConnection(_envOptions.PostgresConnectionString);
         await connection.ExecuteAsync(sql, new { PlayerId = playerId });
     }
 }

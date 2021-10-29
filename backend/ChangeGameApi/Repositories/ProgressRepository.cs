@@ -9,13 +9,18 @@ using Npgsql;
 /// </summary>
 public class ProgressRepository : IProgressRepository
 {
-    private readonly string _connString = Environment.GetEnvironmentVariable(Constants.PgConnString) ?? "";
+    private readonly EnvOptions _envOptions;
+
+    public ProgressRepository(EnvOptions envOptions)
+    {
+        _envOptions = envOptions;
+    }
     
     public async Task InsertProgress(Progress progress)
     {
         const string sql =
             "INSERT INTO progress (player_id, timestamp, day, approval, period) VALUES (@PlayerId, now(), @Day, @Approval, @Period)";
-        await using var connection = new NpgsqlConnection(_connString);
+        await using var connection = new NpgsqlConnection(_envOptions.PostgresConnectionString);
         await connection.ExecuteAsync(sql, new
         {
             PlayerId = progress.PlayerId,
@@ -36,7 +41,7 @@ public class ProgressRepository : IProgressRepository
                 LEFT JOIN signins s ON pl.id = s.player_id
             WHERE g.is_active = true
             ORDER BY pl.team, pr.timestamp DESC;";
-        await using var connection = new NpgsqlConnection(_connString);
+        await using var connection = new NpgsqlConnection(_envOptions.PostgresConnectionString);
         var progresses = await connection.QueryAsync<Progress>(sql);
         return progresses ?? Array.Empty<Progress>();
     }

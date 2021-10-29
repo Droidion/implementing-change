@@ -1,4 +1,5 @@
 using System.Text;
+using ChangeGameApi.Helpers;
 using ChangeGameApi.Repositories;
 using ChangeGameApi.Services;
 using dotenv.net;
@@ -9,13 +10,14 @@ using Serilog.Events;
 
 DotEnv.Load();
 Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
+var envOptions = EnvOptionsHelper.LoadEnv();
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Debug()
     .WriteTo.Console()
     .WriteTo.Sentry(o =>
     {
-        o.Dsn = Environment.GetEnvironmentVariable("SENTRY_URL");
+        o.Dsn = envOptions.SentryUrl;
         // Debug and higher are stored as breadcrumbs (default is Information)
         o.MinimumBreadcrumbLevel = LogEventLevel.Debug;
         // Warning and higher is sent as event (default is Error)
@@ -36,6 +38,7 @@ builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<IGameService, GameService>();
 builder.Services.AddTransient<IProgressService, ProgressService>();
 builder.Services.AddTransient<IPlayerService, PlayerService>();
+builder.Services.AddSingleton(envOptions);
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(
@@ -56,7 +59,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ValidateAudience = false,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT_SECRET"]))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(envOptions.JwtSecret))
     };
 });
 builder.Services.AddEndpointsApiExplorer();
