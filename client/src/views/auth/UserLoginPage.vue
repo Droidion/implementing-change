@@ -6,6 +6,7 @@
       <input v-model="password" class="input" type="password" placeholder="Пароль игрока" @input="clearError" />
       <button class="button" type="submit">Войти</button>
     </form>
+    <div v-if="isLoading" class="spinner"></div>
     <div v-if="errorMsg" class="error">{{ errorMsg }}</div>
   </div>
   <login-mode-selector></login-mode-selector>
@@ -24,9 +25,11 @@ const progressStore = useProgressStore()
 
 const password = ref('')
 const errorMsg = ref('')
+const isLoading = ref(false)
 
 async function pinChanged() {
   try {
+    isLoading.value = true
     const result = await $requestMaker?.authUser(password.value)
     progressStore.$patch({
       authenticated: true,
@@ -35,6 +38,8 @@ async function pinChanged() {
     await router.push('/planner')
   } catch (error: unknown) {
     errorMsg.value = error as string
+  } finally {
+    isLoading.value = false
   }
 }
 
@@ -45,4 +50,5 @@ function clearError() {
 
 <style scoped lang="scss">
 @use '../../styles/auth';
+@use '../../styles/spinner';
 </style>

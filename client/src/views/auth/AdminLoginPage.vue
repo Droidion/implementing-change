@@ -9,6 +9,7 @@
         <button class="button" type="submit">Войти</button>
       </div>
     </form>
+    <div v-if="isLoading" class="spinner"></div>
     <div v-if="errorMsg" class="error">{{ errorMsg }}</div>
   </div>
   <login-mode-selector></login-mode-selector>
@@ -29,10 +30,12 @@ const $requestMaker = inject(RequestMakerKey)
 const login = ref('')
 const password = ref('')
 const errorMsg = ref('')
+const isLoading = ref(false)
 
 async function pinChanged() {
   try {
     if ($requestMaker) {
+      isLoading.value = true
       //const centrifugoToken = (await $requestMaker.authAdmin(login.value, password.value)).centrifugoToken
       await $requestMaker.authAdmin(login.value, password.value)
       progressStore.$patch({
@@ -43,6 +46,8 @@ async function pinChanged() {
     }
   } catch (error: unknown) {
     errorMsg.value = error as string
+  } finally {
+    isLoading.value = false
   }
 }
 
@@ -53,4 +58,5 @@ function clearError() {
 
 <style scoped lang="scss">
 @use '../../styles/auth';
+@use '../../styles/spinner';
 </style>
