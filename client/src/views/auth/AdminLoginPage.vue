@@ -45,7 +45,7 @@ async function pinChanged() {
       await router.push('/admin/manage')
     }
   } catch (error: unknown) {
-    errorMsg.value = error as string
+    errorMsg.value = JSON.parse(error as string).title
   } finally {
     isLoading.value = false
   }
