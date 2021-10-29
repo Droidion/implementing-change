@@ -2,11 +2,11 @@
   <div class="wrapper">
     <header-menu class="header">
       <ul>
-        <li><router-link to="/planner">Планировщик</router-link></li>
-        <li><router-link to="/modeling">Моделирование</router-link></li>
-        <li><router-link to="/dynamics">Динамика</router-link></li>
-        <li><router-link to="/history">История</router-link></li>
-        <li><router-link to="/help/characters">Помощь</router-link></li>
+        <li><router-link :to="{ name: RouteNames.PlayerPlanner }">Планировщик</router-link></li>
+        <li><router-link :to="{ name: RouteNames.PlayerModeling }">Моделирование</router-link></li>
+        <li><router-link :to="{ name: RouteNames.PlayerDynamics }">Динамика</router-link></li>
+        <li><router-link :to="{ name: RouteNames.PlayerHistory }">История</router-link></li>
+        <li><router-link :to="{ name: RouteNames.PlayerCharacters }">Помощь</router-link></li>
       </ul>
     </header-menu>
     <article class="content">
@@ -20,6 +20,7 @@
 
 <script lang="ts" setup>
 import HeaderMenu from '../HeaderMenu.vue'
+import { RouteNames } from '../../router'
 import IndicatorGoals from '../IndicatorGoals.vue'
 import IndicatorProject from '../IndicatorProject.vue'
 </script>

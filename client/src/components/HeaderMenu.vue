@@ -24,6 +24,7 @@
 </template>
 
 <script lang="ts" setup>
+import { RouteNames } from '../router'
 import { useRouter } from 'vue-router'
 import { useProgressStore } from '../stores/progressStore'
 
@@ -35,7 +36,7 @@ function logout() {
   progressStore.$patch({
     authenticated: false,
   })
-  router.push('/login/user')
+  router.push({ name: RouteNames.UserLogin })
 }
 </script>
 

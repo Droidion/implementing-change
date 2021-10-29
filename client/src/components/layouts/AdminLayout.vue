@@ -2,10 +2,10 @@
   <div class="wrapper">
     <header-menu class="header">
       <ul>
-        <li><router-link to="/admin/manage">Игра</router-link></li>
-        <li><router-link to="/admin/chart/periods">Графики</router-link></li>
-        <li><router-link to="/admin/results/table">Таблица</router-link></li>
-        <li><router-link to="/admin/results/output">Выгрузка</router-link></li>
+        <li><router-link :to="{ name: RouteNames.AdminManage }">Игра</router-link></li>
+        <li><router-link :to="{ name: RouteNames.AdminPeriods }">Графики</router-link></li>
+        <li><router-link :to="{ name: RouteNames.AdminTable }">Таблица</router-link></li>
+        <li><router-link :to="{ name: RouteNames.AdminOutput }">Выгрузка</router-link></li>
       </ul>
     </header-menu>
     <article class="content">
@@ -16,6 +16,7 @@
 
 <script lang="ts" setup>
 import HeaderMenu from '../HeaderMenu.vue'
+import { RouteNames } from '../../router'
 </script>
 
 <style scoped lang="scss">
