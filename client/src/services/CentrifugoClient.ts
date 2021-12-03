@@ -1,5 +1,8 @@
 import Centrifuge from 'centrifuge'
 
+/**
+ * Клиент Centrifugo для обмена сообщениями в реальном времени с сервером.
+ */
 export class CentrifugoClient {
   #centrifugo: Centrifuge
 
@@ -7,7 +10,21 @@ export class CentrifugoClient {
     this.#centrifugo = new Centrifuge(url)
   }
 
-  registerEvents(): void {
+  /**
+   * Устанавливает соединение с сервером Centrifugo.
+   * @param token Токен Centrifugo.
+   */
+  connect(token: string): void {
+    this.#centrifugo.setToken(token)
+    this.registerEvents()
+    this.#centrifugo.connect()
+  }
+
+  /**
+   * Регистрирует входные и выходные события для общения с Centrifugo.
+   * @private
+   */
+  private registerEvents(): void {
     this.#centrifugo.on('connect', function (ctx) {
       console.log('connected', ctx)
     })
@@ -19,11 +36,5 @@ export class CentrifugoClient {
     this.#centrifugo.subscribe('channel', function (ctx) {
       console.log('got message: ', ctx.data.value)
     })
-  }
-
-  connect(token: string): void {
-    this.#centrifugo.setToken(token)
-    this.registerEvents()
-    this.#centrifugo.connect()
   }
 }

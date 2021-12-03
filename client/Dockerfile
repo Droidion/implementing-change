@@ -6,9 +6,8 @@ RUN pnpm i
 COPY . .
 RUN pnpm run build
 
-FROM node:17-alpine as production-stage
-RUN npm install -g http-server
-WORKDIR /public
-COPY --from=build-stage /app/dist .
-EXPOSE 8080
-CMD ["http-server", "-b", "-g"]
+FROM joseluisq/static-web-server:2 as production-stage
+COPY --from=build-stage /app/dist /public
+EXPOSE 80
+# CMD ["static-web-server"]
+ENTRYPOINT ["static-web-server"]
