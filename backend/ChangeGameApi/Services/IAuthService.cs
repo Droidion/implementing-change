@@ -1,6 +1,6 @@
 namespace ChangeGameApi.Services;
 
-using Types;
+using Models;
 
 /// <summary>
 /// Business logic for authenticating users

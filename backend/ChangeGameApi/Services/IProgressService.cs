@@ -1,6 +1,7 @@
+
 namespace ChangeGameApi.Services;
 
-using Types;
+using Models;
 
 /// <summary>
 /// Business logic for working with game progress

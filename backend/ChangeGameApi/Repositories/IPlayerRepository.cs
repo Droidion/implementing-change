@@ -1,6 +1,6 @@
-namespace ChangeGameApi.Repositories;
 
-using Types;
+namespace ChangeGameApi.Repositories;
+using Models;
 
 /// <summary>
 /// Persistence management for players

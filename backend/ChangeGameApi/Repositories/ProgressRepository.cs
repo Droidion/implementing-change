@@ -1,6 +1,6 @@
 namespace ChangeGameApi.Repositories;
 
-using Types;
+using Models;
 using Dapper;
 using Npgsql;
 

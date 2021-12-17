@@ -2,7 +2,7 @@ namespace ChangeGameApi.Services;
 
 using Helpers;
 using Repositories;
-using Types;
+using Models;
 using Microsoft.AspNetCore.Authorization;
 
 /// <summary>

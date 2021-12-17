@@ -1,7 +1,7 @@
 namespace ChangeGameApi.Helpers;
 
 using dotenv.net.Utilities;
-using Types;
+using Models;
 
 /// <summary>
 /// Helpers for working with environment variables

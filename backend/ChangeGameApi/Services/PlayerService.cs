@@ -1,7 +1,8 @@
+
 namespace ChangeGameApi.Services;
 
+using Models;
 using Repositories;
-using Types;
 using Helpers;
 
 /// <summary>

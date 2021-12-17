@@ -1,7 +1,7 @@
 namespace ChangeGameApi.Controllers;
 
 using Services;
-using Types;
+using Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -1,6 +1,7 @@
+
 namespace ChangeGameApi.Repositories;
 
-using Types;
+using Models;
 
 /// <summary>
 /// Persistence management for admins
